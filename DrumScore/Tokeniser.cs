@@ -15,15 +15,17 @@ namespace DrumScore
         public IList<IExpression> ReadTokens(string score)
         {
             var expressions = new List<IExpression>();
-            var beats = score.Split(new[] { beatSeparator }, StringSplitOptions.RemoveEmptyEntries);
+            var tokens = score.Split(new[] { beatSeparator }, StringSplitOptions.RemoveEmptyEntries);
 
-            foreach (var beat in beats)
+            foreach (var token in tokens)
             {
-                if (Regex.IsMatch(beat, samplePattern)) expressions.Add(new SampleExpression(beat));
+                if (Regex.IsMatch(token, samplePattern)) expressions.Add(new SampleExpression(token));
 
-                if (Regex.IsMatch(beat, offsetSamplePattern)) expressions.Add(CreateOffsetExpression(beat));
+                else if (Regex.IsMatch(token, offsetSamplePattern)) expressions.Add(CreateOffsetExpression(token));
 
-                if (beat == skipBeatPattern) expressions.Add(new SkipBeatExpression());
+                else if (token == skipBeatPattern) expressions.Add(new SkipBeatExpression());
+
+                else throw new UnrecognisedTokenException(token);
             }
 
             return expressions;
@@ -39,5 +41,10 @@ namespace DrumScore
             var expression = new OffsetSampleExpression { Timing = timing, Offset = offset };
             return expression;
         }
+    }
+
+    public class UnrecognisedTokenException : Exception
+    {
+        public UnrecognisedTokenException(string message) : base(message) { }
     }
 }

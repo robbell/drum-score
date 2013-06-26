@@ -1,4 +1,5 @@
-﻿using DrumScore.Expressions;
+﻿using System;
+using DrumScore.Expressions;
 using NUnit.Framework;
 using System.Linq;
 
@@ -83,6 +84,15 @@ namespace DrumScore.Tests
             var expression = tokeniser.ReadTokens(score).First();
 
             return ((OffsetSampleExpression)expression).Offset;
+        }
+
+        [Test]
+        [ExpectedException(typeof(UnrecognisedTokenException))]
+        public void UnrecognisedTokenThrowsException()
+        {
+            var badScore = "*=.";
+
+            tokeniser.ReadTokens(badScore);
         }
     }
 }

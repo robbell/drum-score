@@ -9,9 +9,24 @@
             Sample = sample;
         }
 
-        public void Interpret(Score score)
+        public void Interpret(IScore score)
         {
-            throw new System.NotImplementedException();
+            var bank = new SampleBank(); // ToDo: Should be injected via IoC
+
+            foreach (var key in Sample)
+            {
+                score.AddSample(bank.Load(key.ToString()));
+            }
+
+            score.Progress();
+        }
+    }
+
+    public class SampleBank
+    {
+        public Sample Load(string key)
+        {
+            return new Sample(key);
         }
     }
 }

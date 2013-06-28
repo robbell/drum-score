@@ -10,7 +10,7 @@ namespace DrumScore
         private const string samplePattern = @"^[\*\^o=]+$";
         private const string offsetSamplePattern = @"^([0-8]?)(\\|\/)([\*\^o=]+$)";
         private const string skipBeatPattern = ".";
-        private const char beatSeparator = ' ';
+        private const string beatSeparator = " ";
 
         public IList<IExpression> ReadTokens(string score)
         {
@@ -38,8 +38,7 @@ namespace DrumScore
             var offset = string.IsNullOrEmpty(groups[1].Value) ? 1 : Convert.ToInt32(groups[1].Value);
             var timing = groups[2].Value == @"\" ? OffsetTiming.Early : OffsetTiming.Late;
 
-            var expression = new OffsetSampleExpression { Timing = timing, Offset = offset };
-            return expression;
+            return new OffsetSampleExpression { Timing = timing, Offset = offset };
         }
     }
 

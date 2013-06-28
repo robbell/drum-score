@@ -12,7 +12,7 @@ namespace DrumScore.Expressions
             Offset = 1;
         }
 
-        public void Interpret(Score score)
+        public void Interpret(IScore score)
         {
             throw new NotImplementedException();
         }

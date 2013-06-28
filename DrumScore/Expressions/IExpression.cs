@@ -2,6 +2,6 @@
 {
     public interface IExpression
     {
-        void Interpret(Score score);
+        void Interpret(IScore score);
     }
 }

@@ -2,7 +2,7 @@
 {
     public class SkipBeatExpression : IExpression
     {
-        public void Interpret(Score score)
+        public void Interpret(IScore score)
         {
             throw new System.NotImplementedException();
         }

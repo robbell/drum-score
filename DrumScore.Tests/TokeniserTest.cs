@@ -90,7 +90,7 @@ namespace DrumScore.Tests
         [ExpectedException(typeof(UnrecognisedTokenException))]
         public void UnrecognisedTokenThrowsException()
         {
-            var badScore = "*=.";
+            const string badScore = "*=.";
 
             tokeniser.ReadTokens(badScore);
         }

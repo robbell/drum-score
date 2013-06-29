@@ -4,9 +4,9 @@ namespace DrumScore
 {
     public interface IScore
     {
-        IList<IEnumerable<Sample>> Samples { get; set; }
+        IDictionary<int, ICollection<Sample>> Samples { get; }
         void AddSample(Sample sample);
         void Progress();
-        void SetPosition(int i);
+        void SetPosition(int value);
     }
 }

@@ -1,24 +1,49 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace DrumScore
 {
     public class Score : IScore
     {
-        public IList<IEnumerable<Sample>> Samples { get; set; }
+        private const int progression = 8;
+        private int position = 0;
+        private int offset;
+
+        public IDictionary<int, ICollection<Sample>> Samples { get; private set; }
+
+        public Score()
+        {
+            Samples = new Dictionary<int, ICollection<Sample>>();
+        }
 
         public void AddSample(Sample sample)
         {
-            throw new System.NotImplementedException();
+            var offsetPosition = position + offset;
+
+            if (!Samples.ContainsKey(offsetPosition)) Samples.Add(offsetPosition, new List<Sample>());
+
+            if (Samples[offsetPosition].All(s => s.Type != sample.Type)) Samples[offsetPosition].Add(sample);
+        }
+
+        public void SetPosition(int value)
+        {
+            offset = value;
         }
 
         public void Progress()
         {
-            throw new System.NotImplementedException();
+            if (offset < 0) RestoreToOriginalPosition();
+            if (offset >= 0) ProgressToNextBeat();
         }
 
-        public void SetPosition(int i)
+        private void RestoreToOriginalPosition()
         {
-            throw new System.NotImplementedException();
+            position += -offset;
+        }
+
+        private void ProgressToNextBeat()
+        {
+            position += progression - offset;
         }
     }
 }

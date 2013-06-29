@@ -1,20 +1,21 @@
-﻿using System;
-
-namespace DrumScore.Expressions
+﻿namespace DrumScore.Expressions
 {
     public class OffsetSampleExpression : IExpression
     {
         public int Offset { get; set; }
         public OffsetTiming Timing { get; set; }
+        private readonly SampleExpression sampleExpression;
 
-        public OffsetSampleExpression()
+        public OffsetSampleExpression(string sample)
         {
+            sampleExpression = new SampleExpression(sample);
             Offset = 1;
         }
 
         public void Interpret(IScore score)
         {
-            throw new NotImplementedException();
+            score.SetPosition(Timing == OffsetTiming.Early ? -Offset : Offset);
+            sampleExpression.Interpret(score);
         }
     }
 

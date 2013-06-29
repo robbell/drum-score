@@ -7,5 +7,6 @@ namespace DrumScore
         IList<IEnumerable<Sample>> Samples { get; set; }
         void AddSample(Sample sample);
         void Progress();
+        void SetPosition(int i);
     }
 }

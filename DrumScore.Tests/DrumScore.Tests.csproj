@@ -47,7 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Expressions\OffsetSampleExpressionTest.cs" />
     <Compile Include="Expressions\SampleExpressionTest.cs" />
+    <Compile Include="Expressions\SkipBeatExpressionTest.cs" />
     <Compile Include="TokeniserTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

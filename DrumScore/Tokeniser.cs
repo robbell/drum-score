@@ -31,14 +31,14 @@ namespace DrumScore
             return expressions;
         }
 
-        private OffsetSampleExpression CreateOffsetExpression(string beat)
+        private OffsetSampleExpression CreateOffsetExpression(string token)
         {
-            var groups = Regex.Match(beat, offsetSamplePattern).Groups;
+            var groups = Regex.Match(token, offsetSamplePattern).Groups;
 
             var offset = string.IsNullOrEmpty(groups[1].Value) ? 1 : Convert.ToInt32(groups[1].Value);
             var timing = groups[2].Value == @"\" ? OffsetTiming.Early : OffsetTiming.Late;
 
-            return new OffsetSampleExpression { Timing = timing, Offset = offset };
+            return new OffsetSampleExpression(token) { Timing = timing, Offset = offset };
         }
     }
 

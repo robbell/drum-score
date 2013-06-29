@@ -4,7 +4,7 @@
     {
         public void Interpret(IScore score)
         {
-            throw new System.NotImplementedException();
+            score.Progress();
         }
     }
 }

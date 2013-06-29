@@ -15,5 +15,10 @@ namespace DrumScore
         {
             throw new System.NotImplementedException();
         }
+
+        public void SetPosition(int i)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

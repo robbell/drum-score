@@ -50,6 +50,7 @@
     <Compile Include="Expressions\OffsetSampleExpressionTest.cs" />
     <Compile Include="Expressions\SampleExpressionTest.cs" />
     <Compile Include="Expressions\SkipBeatExpressionTest.cs" />
+    <Compile Include="InterpreterTest.cs" />
     <Compile Include="ScoreTest.cs" />
     <Compile Include="TokeniserTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

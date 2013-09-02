@@ -1,5 +1,4 @@
-﻿using System;
-using DrumScore.Expressions;
+﻿using DrumScore.Expressions;
 using NUnit.Framework;
 using System.Linq;
 

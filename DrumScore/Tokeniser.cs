@@ -12,7 +12,7 @@ namespace DrumScore
         private const string skipBeatPattern = ".";
         private const string beatSeparator = " ";
 
-        public IList<IExpression> ReadTokens(string score)
+        public virtual IList<IExpression> ReadTokens(string score)
         {
             var expressions = new List<IExpression>();
             var tokens = score.Split(new[] { beatSeparator }, StringSplitOptions.RemoveEmptyEntries);

@@ -9,10 +9,10 @@
             this.tokeniser = tokeniser;
         }
 
-        public Score Interpret(string twitterScore)
+        public Score Interpret(string textScore)
         {
             var score = new Score();
-            var tokens = tokeniser.ReadTokens(twitterScore);
+            var tokens = tokeniser.ReadTokens(textScore);
 
             foreach (var token in tokens)
             {

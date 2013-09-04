@@ -10,7 +10,7 @@ namespace DrumScore.Tests
         [Test]
         public void InterpreterTokenisesAndInterpretsExpressionString()
         {
-            const string twitterScore = "*^  o = =";
+            const string textScore = "*^  o = =";
 
             var firstExpression = new Mock<IExpression>();
             var lastExpression = new Mock<IExpression>();
@@ -18,9 +18,9 @@ namespace DrumScore.Tests
             var expressions = new[] { firstExpression.Object, lastExpression.Object };
 
             var tokeniser = new Mock<Tokeniser>();
-            tokeniser.Setup(t => t.ReadTokens(twitterScore)).Returns(expressions);
+            tokeniser.Setup(t => t.ReadTokens(textScore)).Returns(expressions);
 
-            new Interpreter(tokeniser.Object).Interpret(twitterScore);
+            new Interpreter(tokeniser.Object).Interpret(textScore);
 
             firstExpression.Verify(e => e.Interpret(It.IsAny<IScore>()));
             lastExpression.Verify(e => e.Interpret(It.IsAny<IScore>()));

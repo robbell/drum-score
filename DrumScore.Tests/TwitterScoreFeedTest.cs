@@ -3,13 +3,13 @@
 namespace DrumScore.Tests
 {
     [TestFixture]
-    public class TwitterScoreReaderTest
+    public class TwitterScoreFeedTest
     {
         [Test]
         public void GetsLatestScoreInfoFromTwitter()
         {
-            var reader = new TwitterScoreReader();
-            Assert.That(reader.GetLatest(), Is.Not.Empty);
+            var feed = new TwitterScoreFeed();
+            Assert.That(feed.GetLatest(), Is.Not.Empty);
         }
     }
 }

@@ -8,35 +8,52 @@ namespace DrumScore.Tests
     public class ScoreQueueTest
     {
         private ScoreQueue queue;
-        private Mock<IScoreReader> reader;
+        private Mock<IScoreFeed> feed;
+        private Mock<INotifications> notifications;
+        private Mock<Interpreter> interpreter;
 
         [SetUp]
         public void Setup()
         {
-            reader = new Mock<IScoreReader>();
-            queue = new ScoreQueue(reader.Object);
+            feed = new Mock<IScoreFeed>();
+            notifications = new Mock<INotifications>();
+            interpreter = new Mock<Interpreter>(null);
+            queue = new ScoreQueue(feed.Object, interpreter.Object, notifications.Object);
         }
 
         [Test]
         public void UpdateAddsNewScoresToQueue()
         {
-            reader.Setup(s => s.GetLatest()).Returns(new[] { new ScoreInfo { Id = 123 }, new ScoreInfo { Id = 234 } });
+            feed.Setup(s => s.GetLatest()).Returns(new[] { new ScoreInfo { Id = 123 }, new ScoreInfo { Id = 234 } });
 
             queue.Update();
 
-            Assert.That(queue.Items.Count, Is.EqualTo(2));
+            Assert.That(queue.Scores.Count, Is.EqualTo(2));
         }
 
         [Test]
         public void DuplicateScoresAreNotAddedToQueue()
         {
             var duplicateItem = new ScoreInfo { Id = 123 };
-            reader.Setup(s => s.GetLatest()).Returns(new[] { duplicateItem });
-            queue.Items.Add(duplicateItem);
+            feed.Setup(s => s.GetLatest()).Returns(new[] { duplicateItem });
+            queue.Scores.Add(duplicateItem);
 
             queue.Update();
 
-            Assert.That(queue.Items.Count(s => s.Id == duplicateItem.Id), Is.EqualTo(1));
+            Assert.That(queue.Scores.Count(s => s.Id == duplicateItem.Id), Is.EqualTo(1));
+        }
+
+        [Test]
+        public void SubmitterIsNotifiedOfInvalidScore()
+        {
+            var invalidScore = new ScoreInfo { Id = 123, TextScore = "BadScore", Username = "MrMan" };
+            feed.Setup(s => s.GetLatest()).Returns(new[] { invalidScore });
+            interpreter.Setup(i => i.Interpret(invalidScore.TextScore)).Throws<UnrecognisedTokenException>();
+
+            queue.Update();
+
+            notifications.Verify(n => n.SendError(invalidScore), Times.Once());
+            Assert.That(queue.Scores, Is.Empty);
         }
     }
 }

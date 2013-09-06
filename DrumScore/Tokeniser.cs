@@ -44,6 +44,7 @@ namespace DrumScore
 
     public class UnrecognisedTokenException : Exception
     {
+        public UnrecognisedTokenException() { }
         public UnrecognisedTokenException(string message) : base(message) { }
     }
 }

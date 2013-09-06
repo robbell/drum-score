@@ -55,7 +55,7 @@
     <Compile Include="ScoreTest.cs" />
     <Compile Include="TokeniserTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TwitterScoreReaderTest.cs" />
+    <Compile Include="TwitterScoreFeedTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\DrumScore\App.config">

@@ -9,7 +9,7 @@
             this.tokeniser = tokeniser;
         }
 
-        public Score Interpret(string textScore)
+        public virtual Score Interpret(string textScore)
         {
             var score = new Score();
             var tokens = tokeniser.ReadTokens(textScore);

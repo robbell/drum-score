@@ -2,7 +2,7 @@
 
 namespace DrumScore
 {
-    public interface IScoreReader
+    public interface IScoreFeed
     {
         IList<ScoreInfo> GetLatest();
     }

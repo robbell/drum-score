@@ -6,11 +6,11 @@ using System.Linq;
 
 namespace DrumScore
 {
-    public class TwitterScoreReader : IScoreReader
+    public class TwitterScoreFeed : IScoreFeed
     {
         private readonly Token token;
 
-        public TwitterScoreReader()
+        public TwitterScoreFeed()
         {
             token = new Token(ConfigurationManager.AppSettings["AccessToken"],
                               ConfigurationManager.AppSettings["AccessToken.Secret"],

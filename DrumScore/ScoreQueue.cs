@@ -5,23 +5,35 @@ namespace DrumScore
 {
     public class ScoreQueue
     {
-        private readonly IScoreReader reader;
+        private readonly IScoreFeed feed;
+        private readonly Interpreter interpreter;
+        private readonly INotifications notifications;
 
-        public IList<ScoreInfo> Items { get; private set; }
+        public IList<ScoreInfo> Scores { get; private set; }
 
-        public ScoreQueue(IScoreReader reader)
+        public ScoreQueue(IScoreFeed feed, Interpreter interpreter, INotifications notifications)
         {
-            this.reader = reader;
-            Items = new List<ScoreInfo>();
+            this.feed = feed;
+            this.interpreter = interpreter;
+            this.notifications = notifications;
+            Scores = new List<ScoreInfo>();
         }
 
         public void Update()
         {
-            var latest = reader.GetLatest();
+            var latest = feed.GetLatest();
 
-            foreach (var item in latest.Where(item => !Items.Any(s => s.Id == item.Id)))
+            foreach (var scoreInfo in latest.Where(item => !Scores.Any(s => s.Id == item.Id)))
             {
-                Items.Add(item);
+                try
+                {
+                    scoreInfo.Score = interpreter.Interpret(scoreInfo.TextScore);
+                    Scores.Add(scoreInfo);
+                }
+                catch (UnrecognisedTokenException)
+                {
+                    notifications.SendError(scoreInfo);
+                }
             }
         }
     }

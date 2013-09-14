@@ -58,7 +58,7 @@
     <Compile Include="TwitterScoreFeedTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\DrumScore\App.config">
+    <None Include="..\DrumScore.UI\App.config">
       <Link>App.config</Link>
     </None>
     <None Include="packages.config" />

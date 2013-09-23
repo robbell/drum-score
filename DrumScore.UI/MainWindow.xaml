@@ -1,12 +1,47 @@
 ﻿<Window x:Class="DrumScore.UI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Tweeting Machine" Height="350" Width="525">
+        Title="Tweeting Machine"
+        Height="350"
+        Width="525">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
+        <DockPanel LastChildFill="True">
+            <Button DockPanel.Dock="Bottom"
+                    Height="Auto"
+                    Content="Update Now"
+                    Click="Update" />
+            <ListView Name="QueuedScores"
+                      HorizontalContentAlignment="Stretch"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding TextScore}"
+                                       Grid.ColumnSpan="2"
+                                       TextTrimming="CharacterEllipsis" />
+                            <TextBlock Text="{Binding Username}"
+                                       Grid.Row="1" />
+                            <TextBlock Text="{Binding DateTime}"
+                                       Grid.Row="1"
+                                       Grid.Column="1"
+                                       TextAlignment="Right" />
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </DockPanel>
     </Grid>
 </Window>

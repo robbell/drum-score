@@ -1,28 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace DrumScore.UI
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
+        private readonly ScoreQueue scoreQueue;
+        private readonly TwitterScoreFeed feed = new TwitterScoreFeed();
+        private readonly Tokeniser tokeniser = new Tokeniser();
+        private readonly Interpreter interpreter;
+        private readonly ObservableCollection<ScoreInfo> scores;
+
+        public ObservableCollection<ScoreInfo> Scores
+        {
+            get { return scores; }
+        }
+
         public MainWindow()
         {
             InitializeComponent();
+
+            scores = new ObservableCollection<ScoreInfo>();
+            interpreter = new Interpreter(tokeniser);
+            scoreQueue = new ScoreQueue(feed, interpreter, null);
+
+            QueuedScores.ItemsSource = scores;
+        }
+
+        private void Update(object sender, RoutedEventArgs e)
+        {
+            scoreQueue.Update();
+            scores.Clear();
+
+            foreach (var info in scoreQueue.Scores)
+            {
+                scores.Add(info);
+            }
         }
     }
 }

@@ -6,7 +6,7 @@ namespace DrumScore
 {
     public class OscOutput : IPlaybackOutput
     {
-        private IPEndPoint endPoint = new IPEndPoint(IPAddress.Loopback, 12013);
+        private readonly IPEndPoint endPoint = new IPEndPoint(IPAddress.Loopback, 12013);
 
         public void Play(ICollection<Sample> samples)
         {

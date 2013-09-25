@@ -9,6 +9,7 @@ namespace DrumScore.DummyReceiver
         public static void Main()
         {
             var server = new OscServer(TransportType.Udp, IPAddress.Loopback, 12013);
+            server.RegisterMethod("/");
             server.MessageReceived += MessageReceived;
             server.Start();
 
@@ -20,7 +21,12 @@ namespace DrumScore.DummyReceiver
 
         private static void MessageReceived(object sender, OscMessageReceivedEventArgs e)
         {
-            Console.WriteLine(e.Message);
+            foreach (var sample in e.Message.Data)
+            {
+                Console.Write(sample);
+            }
+
+            Console.WriteLine();
         }
     }
 }

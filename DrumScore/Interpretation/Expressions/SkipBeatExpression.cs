@@ -1,4 +1,4 @@
-﻿namespace DrumScore.Expressions
+﻿namespace DrumScore.Interpretation.Expressions
 {
     public class SkipBeatExpression : IExpression
     {

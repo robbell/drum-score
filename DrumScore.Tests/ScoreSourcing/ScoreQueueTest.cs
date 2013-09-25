@@ -1,8 +1,10 @@
-﻿using Moq;
+﻿using DrumScore.Interpretation;
+using DrumScore.ScoreSourcing;
+using Moq;
 using NUnit.Framework;
 using System.Linq;
 
-namespace DrumScore.Tests
+namespace DrumScore.Tests.ScoreSourcing
 {
     [TestFixture]
     public class ScoreQueueTest

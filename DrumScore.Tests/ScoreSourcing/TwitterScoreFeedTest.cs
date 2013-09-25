@@ -1,6 +1,7 @@
-﻿using NUnit.Framework;
+﻿using DrumScore.ScoreSourcing;
+using NUnit.Framework;
 
-namespace DrumScore.Tests
+namespace DrumScore.Tests.ScoreSourcing
 {
     [TestFixture]
     public class TwitterScoreFeedTest

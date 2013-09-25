@@ -1,8 +1,9 @@
-﻿using DrumScore.Expressions;
+﻿using DrumScore.Interpretation;
+using DrumScore.Interpretation.Expressions;
 using NUnit.Framework;
 using System.Linq;
 
-namespace DrumScore.Tests
+namespace DrumScore.Tests.Interpretation
 {
     [TestFixture]
     public class TokeniserTest

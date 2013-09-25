@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DrumScore
+namespace DrumScore.ScoreSourcing
 {
     public interface IScoreFeed
     {

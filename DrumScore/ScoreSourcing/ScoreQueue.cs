@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using DrumScore.Interpretation;
 
-namespace DrumScore
+namespace DrumScore.ScoreSourcing
 {
     public class ScoreQueue
     {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using DrumScore.Expressions;
+using DrumScore.Interpretation.Expressions;
 
-namespace DrumScore
+namespace DrumScore.Interpretation
 {
     public class Tokeniser
     {

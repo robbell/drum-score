@@ -1,4 +1,4 @@
-﻿namespace DrumScore
+﻿namespace DrumScore.ScoreSourcing
 {
     public interface INotifications
     {

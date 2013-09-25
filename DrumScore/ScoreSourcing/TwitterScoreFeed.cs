@@ -6,7 +6,7 @@ using Tweetinvi;
 using TwitterToken;
 using System.Linq;
 
-namespace DrumScore
+namespace DrumScore.ScoreSourcing
 {
     public class TwitterScoreFeed : IScoreFeed
     {

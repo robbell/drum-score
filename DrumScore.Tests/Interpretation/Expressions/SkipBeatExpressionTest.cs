@@ -1,8 +1,8 @@
-﻿using DrumScore.Expressions;
+﻿using DrumScore.Interpretation.Expressions;
 using Moq;
 using NUnit.Framework;
 
-namespace DrumScore.Tests.Expressions
+namespace DrumScore.Tests.Interpretation.Expressions
 {
     [TestFixture]
     public class SkipBeatExpressionTest

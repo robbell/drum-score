@@ -6,7 +6,7 @@ namespace DrumScore
     public class Score : IScore
     {
         private const int progression = 8;
-        private int position = 0;
+        private int position;
         private int offset;
 
         public IDictionary<int, ICollection<Sample>> Samples { get; private set; }

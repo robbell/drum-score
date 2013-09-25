@@ -47,15 +47,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Expressions\OffsetSampleExpressionTest.cs" />
-    <Compile Include="Expressions\SampleExpressionTest.cs" />
-    <Compile Include="Expressions\SkipBeatExpressionTest.cs" />
-    <Compile Include="InterpreterTest.cs" />
-    <Compile Include="ScoreQueueTest.cs" />
+    <Compile Include="Interpretation\Expressions\OffsetSampleExpressionTest.cs" />
+    <Compile Include="Interpretation\Expressions\SampleExpressionTest.cs" />
+    <Compile Include="Interpretation\Expressions\SkipBeatExpressionTest.cs" />
+    <Compile Include="Interpretation\InterpreterTest.cs" />
+    <Compile Include="PlaybackTest.cs" />
+    <Compile Include="ScoreSourcing\ScoreQueueTest.cs" />
     <Compile Include="ScoreTest.cs" />
-    <Compile Include="TokeniserTest.cs" />
+    <Compile Include="Interpretation\TokeniserTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TwitterScoreFeedTest.cs" />
+    <Compile Include="ScoreSourcing\TwitterScoreFeedTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\DrumScore.UI\App.config">

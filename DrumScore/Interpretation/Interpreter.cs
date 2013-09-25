@@ -1,4 +1,4 @@
-﻿namespace DrumScore
+﻿namespace DrumScore.Interpretation
 {
     public class Interpreter
     {

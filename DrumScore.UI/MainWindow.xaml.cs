@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
+using DrumScore.Interpretation;
+using DrumScore.ScoreSourcing;
 
 namespace DrumScore.UI
 {

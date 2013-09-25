@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="Interpretation\Expressions\IExpression.cs" />
     <Compile Include="Interpretation\Expressions\OffsetSampleExpression.cs" />
+    <Compile Include="OscOutput.cs" />
     <Compile Include="ScoreSourcing\INotifications.cs" />
     <Compile Include="Interpretation\Interpreter.cs" />
     <Compile Include="IPlaybackOutput.cs" />

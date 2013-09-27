@@ -1,7 +1,9 @@
-﻿namespace DrumScore.ScoreSourcing
+﻿using DrumScore.Interpretation;
+
+namespace DrumScore.ScoreSourcing
 {
     public interface INotifications
     {
-        void SendError(ScoreInfo invalidScore);
+        void SendError(ScoreInfo invalidScore, UnrecognisedTokenException exception);
     }
 }

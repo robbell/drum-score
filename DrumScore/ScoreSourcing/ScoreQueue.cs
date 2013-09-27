@@ -31,9 +31,9 @@ namespace DrumScore.ScoreSourcing
                     scoreInfo.Score = interpreter.Interpret(scoreInfo.TextScore);
                     Scores.Add(scoreInfo);
                 }
-                catch (UnrecognisedTokenException)
+                catch (UnrecognisedTokenException exception)
                 {
-                    notifications.SendError(scoreInfo);
+                    notifications.SendError(scoreInfo, exception);
                 }
             }
         }

@@ -86,6 +86,7 @@
     <Compile Include="Score.cs" />
     <Compile Include="Interpretation\Expressions\SkipBeatExpression.cs" />
     <Compile Include="ScoreInfo.cs" />
+    <Compile Include="ScoreSourcing\Notifications.cs" />
     <Compile Include="ScoreSourcing\ScoreQueue.cs" />
     <Compile Include="Interpretation\Tokeniser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

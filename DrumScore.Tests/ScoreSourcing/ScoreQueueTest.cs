@@ -50,11 +50,13 @@ namespace DrumScore.Tests.ScoreSourcing
         {
             var invalidScore = new ScoreInfo { Id = 123, TextScore = "BadScore", Username = "MrMan" };
             feed.Setup(s => s.GetLatest()).Returns(new[] { invalidScore });
-            interpreter.Setup(i => i.Interpret(invalidScore.TextScore)).Throws<UnrecognisedTokenException>();
+
+            var expectedException = new UnrecognisedTokenException("Invalid Token");
+            interpreter.Setup(i => i.Interpret(invalidScore.TextScore)).Throws(expectedException);
 
             queue.Update();
 
-            notifications.Verify(n => n.SendError(invalidScore), Times.Once());
+            notifications.Verify(n => n.SendError(invalidScore, expectedException), Times.Once());
             Assert.That(queue.Scores, Is.Empty);
         }
     }

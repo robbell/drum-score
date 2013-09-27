@@ -13,8 +13,9 @@ namespace DrumScore.DummyReceiver
             server.MessageReceived += MessageReceived;
             server.Start();
 
-            Console.WriteLine("DummyReceiver Started");
-            Console.WriteLine("Press any key to exit");
+            Console.WriteLine("Dummy Receiver started.");
+            Console.WriteLine("Awaiting messages...");
+            Console.WriteLine("Press any key to exit.");
             Console.ReadKey();
             server.Stop();
         }

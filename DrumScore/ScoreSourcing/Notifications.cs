@@ -6,19 +6,19 @@ namespace DrumScore.ScoreSourcing
 {
     public class Notifications : INotifications
     {
+        private const int maxLength = 140;
+
         public void SendError(ScoreInfo invalidScore, UnrecognisedTokenException exception)
         {
             try
             {
                 var user = new TokenUser(TokenSingleton.Token);
 
-                var tweet = string.Format("@{0} Unrecognised token: \"{1}\". Full details: {2}",
+                var tweet = string.Format("@{0} Unrecognised token: \"{1}\".",
                                           invalidScore.Username,
-                                          exception.Message,
-                                          exception)
-                                  .Substring(0, 140);
+                                          exception.Message);
 
-                user.SendTweet(tweet);
+                user.SendTweet(tweet.Length > maxLength ? tweet.Substring(0, maxLength) : tweet);
             }
             catch (WebException)
             {

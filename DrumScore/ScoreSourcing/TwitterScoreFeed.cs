@@ -32,8 +32,8 @@ namespace DrumScore.ScoreSourcing
                 {
                     Id = m.Id,
                     TextScore = StripMentions(m.Text),
-                    Username = m.InReplyToScreenName,
-                    DateTime = m.CreatedAt
+                    Username = m.Creator.ScreenName,
+                    DateTime = m.CreatedAt,
                 }).ToList();
 
             }

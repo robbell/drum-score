@@ -22,7 +22,7 @@ namespace DrumScore.UI
             scores = new ObservableCollection<ScoreInfo>();
             scoreQueue = new ScoreQueue(new TwitterScoreFeed(), new Interpreter(new Tokeniser()), new Notifications());
 
-            QueuedScores.ItemsSource = scores;
+            FeedQueue.ItemsSource = scores;
         }
 
         private void Update(object sender, RoutedEventArgs e)
@@ -30,7 +30,7 @@ namespace DrumScore.UI
             scoreQueue.Update();
             scores.Clear();
 
-            foreach (var info in scoreQueue.Scores)
+            foreach (var info in scoreQueue.Tweets)
             {
                 scores.Add(info);
             }

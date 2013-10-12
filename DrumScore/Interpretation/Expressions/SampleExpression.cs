@@ -11,22 +11,12 @@
 
         public void Interpret(IScore score)
         {
-            var bank = new SampleBank(); // ToDo: Should be injected via IoC
-
             foreach (var key in Sample)
             {
-                score.AddSample(bank.Load(key.ToString()));
+                score.AddSample(new Sample(key.ToString()));
             }
 
             score.Progress();
-        }
-    }
-
-    public class SampleBank
-    {
-        public Sample Load(string key)
-        {
-            return new Sample(key);
         }
     }
 }

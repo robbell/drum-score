@@ -22,7 +22,7 @@ namespace DrumScore.UI
             scores = new ObservableCollection<ScoreInfo>();
             scoreQueue = new ScoreQueue(new TwitterScoreFeed(), new Interpreter(new Tokeniser()), new Notifications());
 
-            QueuedScores.ItemsSource = scores;
+            PlayQueue.ItemsSource = scores;
         }
 
         private void Update(object sender, RoutedEventArgs e)

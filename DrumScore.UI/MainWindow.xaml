@@ -7,15 +7,17 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
+            <ColumnDefinition Width="15" />
             <ColumnDefinition />
+            <ColumnDefinition Width="15" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <DockPanel LastChildFill="True">
-            <Button DockPanel.Dock="Bottom"
+            <Button DockPanel.Dock="Top"
                     Height="Auto"
                     Content="Update Now"
                     Click="Update" />
-            <ListView Name="QueuedScores"
+            <ListView Name="ScoreFeed"
                       HorizontalContentAlignment="Stretch"
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListView.ItemTemplate>
@@ -43,5 +45,45 @@
                 </ListView.ItemTemplate>
             </ListView>
         </DockPanel>
+        <Button Content="˃"
+                Grid.Column="1"
+                VerticalAlignment="Center" />
+        <ListView Name="PlayQueue"
+                  HorizontalContentAlignment="Stretch"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  Grid.Column="2">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding TextScore}"
+                                   Grid.ColumnSpan="2"
+                                   TextTrimming="CharacterEllipsis" />
+                        <TextBlock Text="{Binding Username}"
+                                   Grid.Row="1" />
+                        <TextBlock Text="{Binding DateTime}"
+                                   Grid.Row="1"
+                                   Grid.Column="1"
+                                   TextAlignment="Right" />
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <StackPanel Orientation="Vertical"
+                    VerticalAlignment="Center"
+                    Grid.Column="3">
+            <Button Content="˄"
+                    VerticalAlignment="Center" />
+
+            <Button Content="˅"
+                    VerticalAlignment="Center" />
+        </StackPanel>
     </Grid>
 </Window>

@@ -4,20 +4,29 @@
         Title="Tweeting Machine"
         Height="350"
         Width="525">
+
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
-            <ColumnDefinition Width="15" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
-            <ColumnDefinition Width="15" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <DockPanel LastChildFill="True">
-            <Button DockPanel.Dock="Top"
+
+        <Label Content="Tweets" />
+
+        <DockPanel LastChildFill="True"
+                   Grid.Row="1">
+            <Button DockPanel.Dock="Bottom"
                     Height="Auto"
                     Content="Update Now"
                     Click="Update" />
-            <ListView Name="ScoreFeed"
+            <ListView Name="TweetListView"
                       HorizontalContentAlignment="Stretch"
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListView.ItemTemplate>
@@ -30,6 +39,7 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition />
+                                <ColumnDefinition Width="20" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="{Binding TextScore}"
                                        Grid.ColumnSpan="2"
@@ -40,18 +50,30 @@
                                        Grid.Row="1"
                                        Grid.Column="1"
                                        TextAlignment="Right" />
+                            <Button Content="Play"
+                                    Grid.Column="2"
+                                    Grid.RowSpan="2" />
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
         </DockPanel>
-        <Button Content="˃"
-                Grid.Column="1"
-                VerticalAlignment="Center" />
-        <ListView Name="PlayQueue"
+
+        <Button Grid.Column="1"
+                Grid.Row="1"
+                VerticalAlignment="Center"
+                Content="→"
+                Name="BaseButton"
+                Click="MoveToPlaylist" />
+
+        <Label Content="Playlist"
+               Grid.Column="2" />
+
+        <ListView Name="PlaylistView"
                   HorizontalContentAlignment="Stretch"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                  Grid.Column="2">
+                  Grid.Column="2"
+                  Grid.Row="1">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -62,6 +84,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition />
+                            <ColumnDefinition Width="20" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="{Binding TextScore}"
                                    Grid.ColumnSpan="2"
@@ -72,18 +95,22 @@
                                    Grid.Row="1"
                                    Grid.Column="1"
                                    TextAlignment="Right" />
+                        <Button Content="Play"
+                                Grid.Column="2"
+                                Grid.RowSpan="2" />
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <StackPanel Orientation="Vertical"
-                    VerticalAlignment="Center"
-                    Grid.Column="3">
-            <Button Content="˄"
-                    VerticalAlignment="Center" />
 
-            <Button Content="˅"
-                    VerticalAlignment="Center" />
+        <StackPanel Grid.Column="3"
+                    Grid.Row="1"
+                    VerticalAlignment="Center">
+            <Button Content="↑"
+                    Width="{Binding Path=ActualWidth, ElementName=BaseButton}" />
+            <Button Content="↓"
+                    Width="{Binding Path=ActualWidth, ElementName=BaseButton}" />
         </StackPanel>
+
     </Grid>
 </Window>

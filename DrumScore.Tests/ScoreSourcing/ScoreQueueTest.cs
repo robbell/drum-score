@@ -1,4 +1,5 @@
-﻿using DrumScore.Interpretation;
+﻿using System.Collections.Generic;
+using DrumScore.Interpretation;
 using DrumScore.ScoreSourcing;
 using Moq;
 using NUnit.Framework;
@@ -30,7 +31,7 @@ namespace DrumScore.Tests.ScoreSourcing
 
             queue.Update();
 
-            Assert.That(queue.Scores.Count, Is.EqualTo(2));
+            Assert.That(queue.Tweets.Count, Is.EqualTo(2));
         }
 
         [Test]
@@ -38,11 +39,11 @@ namespace DrumScore.Tests.ScoreSourcing
         {
             var duplicateItem = new ScoreInfo { Id = 123 };
             feed.Setup(s => s.GetLatest()).Returns(new[] { duplicateItem });
-            queue.Scores.Add(duplicateItem);
+            queue.Tweets.Add(duplicateItem);
 
             queue.Update();
 
-            Assert.That(queue.Scores.Count(s => s.Id == duplicateItem.Id), Is.EqualTo(1));
+            Assert.That(queue.Tweets.Count(s => s.Id == duplicateItem.Id), Is.EqualTo(1));
         }
 
         [Test]
@@ -57,7 +58,25 @@ namespace DrumScore.Tests.ScoreSourcing
             queue.Update();
 
             notifications.Verify(n => n.SendError(invalidScore, expectedException), Times.Once());
-            Assert.That(queue.Scores, Is.Empty);
+            Assert.That(queue.Tweets, Is.Empty);
+        }
+
+        [Test]
+        public void ScoreInfoIsMovedFromTweetListToBottomOfPlaylist()
+        {
+            var scoreToMove = new ScoreInfo { Id = 123 };
+
+            queue.Tweets.Add(new ScoreInfo());
+            queue.Tweets.Add(scoreToMove);
+            queue.Tweets.Add(new ScoreInfo());
+
+            queue.Playlist.Add(new ScoreInfo());
+            queue.Playlist.Add(new ScoreInfo());
+
+            queue.MoveToPlaylist(scoreToMove);
+
+            Assert.That(queue.Playlist.Last(), Is.EqualTo(scoreToMove));
+            Assert.That(queue.Tweets.Contains(scoreToMove), Is.False);
         }
     }
 }

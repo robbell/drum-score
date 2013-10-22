@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DrumScore.Interpretation;
 
@@ -26,7 +27,7 @@ namespace DrumScore.ScoreSourcing
         {
             var latest = feed.GetLatest();
 
-            foreach (var scoreInfo in latest.Where(item => !Tweets.Any(s => s.Id == item.Id)))
+            foreach (var scoreInfo in latest.Where(NotPlayedPreviously()))
             {
                 try
                 {
@@ -38,6 +39,11 @@ namespace DrumScore.ScoreSourcing
                     notifications.SendError(scoreInfo, exception);
                 }
             }
+        }
+
+        private Func<ScoreInfo, bool> NotPlayedPreviously()
+        {
+            return item => Tweets.All(s => s.Id != item.Id) && Playlist.All(s => s.Id != item.Id);
         }
 
         public void MoveToPlaylist(ScoreInfo scoreToMove)

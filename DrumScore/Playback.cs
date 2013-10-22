@@ -6,6 +6,7 @@ namespace DrumScore
     {
         private readonly IPlaybackOutput output;
         private const int millisecondsBetweenFrames = 100;
+        public event PlaybackComplete Complete;
 
         public Playback(IPlaybackOutput output)
         {
@@ -23,11 +24,20 @@ namespace DrumScore
                 output.Play(score.Samples[position]);
                 stopwatch.Restart();
             }
+
+            OnComplete();
         }
 
         private void WaitForNextFrame(Stopwatch stopwatch)
         {
             while (stopwatch.ElapsedMilliseconds < millisecondsBetweenFrames) { }
         }
+
+        private void OnComplete()
+        {
+            if (Complete != null) Complete();`
+        }
     }
+
+    public delegate void PlaybackComplete();
 }

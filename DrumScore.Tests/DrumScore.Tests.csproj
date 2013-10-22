@@ -51,6 +51,7 @@
     <Compile Include="Interpretation\Expressions\SampleExpressionTest.cs" />
     <Compile Include="Interpretation\Expressions\SkipBeatExpressionTest.cs" />
     <Compile Include="Interpretation\InterpreterTest.cs" />
+    <Compile Include="PlaybackQueueTest.cs" />
     <Compile Include="PlaybackTest.cs" />
     <Compile Include="ScoreSourcing\ScoreQueueTest.cs" />
     <Compile Include="ScoreTest.cs" />

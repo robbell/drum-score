@@ -13,7 +13,7 @@ namespace DrumScore
             this.output = output;
         }
 
-        public void Play(IScore score)
+        public virtual void Play(IScore score)
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();

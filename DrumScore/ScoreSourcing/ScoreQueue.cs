@@ -71,5 +71,10 @@ namespace DrumScore.ScoreSourcing
             Playlist.RemoveAt(itemIndex);
             Playlist.Insert(itemIndex + 1, scoreToMove);
         }
+
+        public virtual ScoreInfo GetNextScoreToPlay()
+        {
+            return null;
+        }
     }
 }

@@ -35,7 +35,7 @@ namespace DrumScore
 
         private void OnComplete()
         {
-            if (Complete != null) Complete();`
+            if (Complete != null) Complete();
         }
     }
 

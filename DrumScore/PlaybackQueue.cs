@@ -1,4 +1,5 @@
-﻿using DrumScore.ScoreSourcing;
+﻿using System;
+using DrumScore.ScoreSourcing;
 
 namespace DrumScore
 {
@@ -11,9 +12,20 @@ namespace DrumScore
         {
             this.scoreQueue = scoreQueue;
             this.playback = playback;
+            playback.Complete += OnPlaybackComplete;
         }
 
         public void Play()
+        {
+            PlayNext();
+        }
+
+        private void OnPlaybackComplete()
+        {
+            PlayNext();
+        }
+
+        private void PlayNext()
         {
             var scoreInfo = scoreQueue.GetNextScoreToPlay();
             playback.Play(scoreInfo.Score);

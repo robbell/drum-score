@@ -6,7 +6,7 @@ namespace DrumScore
     {
         private readonly IPlaybackOutput output;
         private const int millisecondsBetweenFrames = 100;
-        public event PlaybackComplete Complete;
+        public virtual event PlaybackComplete Complete;
 
         public Playback(IPlaybackOutput output)
         {

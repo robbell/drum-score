@@ -10,6 +10,7 @@ namespace DrumScore.ScoreSourcing
         private readonly IScoreFeed feed;
         private readonly Interpreter interpreter;
         private readonly INotifications notifications;
+        private List<ScoreInfo> playHistory = new List<ScoreInfo>(); 
 
         public IList<ScoreInfo> Tweets { get; private set; }
         public IList<ScoreInfo> Playlist { get; private set; }
@@ -74,7 +75,14 @@ namespace DrumScore.ScoreSourcing
 
         public virtual ScoreInfo GetNextScoreToPlay()
         {
-            return null;
+            var nextScore = Playlist.FirstOrDefault();
+
+            if (nextScore == null) return null;
+
+            Playlist.Remove(nextScore);
+            playHistory.Add(nextScore);
+
+            return nextScore;
         }
     }
 }

@@ -78,5 +78,49 @@ namespace DrumScore.Tests.ScoreSourcing
             Assert.That(queue.Playlist.Last(), Is.EqualTo(scoreToMove));
             Assert.That(queue.Tweets.Contains(scoreToMove), Is.False);
         }
+
+        [Test]
+        public void ScoreInfoCanBeMovedUpAndDownPlaylist()
+        {
+            var scoreToMove = new ScoreInfo { Id = 123 };
+
+            queue.Playlist.Add(new ScoreInfo());
+            queue.Playlist.Add(scoreToMove);
+            queue.Playlist.Add(new ScoreInfo());
+
+            queue.MoveItemUp(scoreToMove);
+
+            Assert.That(queue.Playlist[0], Is.EqualTo(scoreToMove));
+
+            queue.MoveItemDown(scoreToMove);
+
+            Assert.That(queue.Playlist[1], Is.EqualTo(scoreToMove));
+        }
+
+        [Test]
+        public void ScoreAtTopOfPlaylistIsntMoved()
+        {
+            var scoreToMove = new ScoreInfo { Id = 123 };
+
+            queue.Playlist.Add(scoreToMove);
+            queue.Playlist.Add(new ScoreInfo());
+
+            queue.MoveItemUp(scoreToMove);
+
+            Assert.That(queue.Playlist.First(), Is.EqualTo(scoreToMove));
+        }
+
+        [Test]
+        public void ScoreAtBottomOfPlaylistIsntMoved()
+        {
+            var scoreToMove = new ScoreInfo { Id = 123 };
+
+            queue.Playlist.Add(new ScoreInfo());
+            queue.Playlist.Add(scoreToMove);
+
+            queue.MoveItemDown(scoreToMove);
+
+            Assert.That(queue.Playlist.Last(), Is.EqualTo(scoreToMove));
+        }
     }
 }

@@ -45,5 +45,25 @@ namespace DrumScore.ScoreSourcing
             Tweets.Remove(scoreToMove);
             Playlist.Add(scoreToMove);
         }
+
+        public void MoveItemUp(ScoreInfo scoreToMove)
+        {
+            var itemIndex = Playlist.IndexOf(scoreToMove);
+
+            if (itemIndex <= 0) return;
+
+            Playlist.RemoveAt(itemIndex);
+            Playlist.Insert(itemIndex - 1, scoreToMove);
+        }
+
+        public void MoveItemDown(ScoreInfo scoreToMove)
+        {
+            var itemIndex = Playlist.IndexOf(scoreToMove);
+
+            if (itemIndex == Playlist.Count - 1) return;
+
+            Playlist.RemoveAt(itemIndex);
+            Playlist.Insert(itemIndex + 1, scoreToMove);
+        }
     }
 }

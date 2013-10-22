@@ -73,7 +73,8 @@
                   HorizontalContentAlignment="Stretch"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   Grid.Column="2"
-                  Grid.Row="1">
+                  Grid.Row="1"
+                  SelectionMode="Single">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -107,9 +108,11 @@
                     Grid.Row="1"
                     VerticalAlignment="Center">
             <Button Content="↑"
-                    Width="{Binding Path=ActualWidth, ElementName=BaseButton}" />
+                    Width="{Binding Path=ActualWidth, ElementName=BaseButton}"
+                    Click="MoveUp" />
             <Button Content="↓"
-                    Width="{Binding Path=ActualWidth, ElementName=BaseButton}" />
+                    Width="{Binding Path=ActualWidth, ElementName=BaseButton}"
+                    Click="MoveDown" />
         </StackPanel>
 
     </Grid>

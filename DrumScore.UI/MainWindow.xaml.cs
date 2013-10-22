@@ -53,6 +53,20 @@ namespace DrumScore.UI
             BindToView();
         }
 
+        private void MoveUp(object sender, RoutedEventArgs e)
+        {
+            if (TweetListView.SelectedItem == null) return;
+            scoreQueue.MoveItemUp(TweetListView.SelectedItem as ScoreInfo);
+            BindToView();
+        }
+
+        private void MoveDown(object sender, RoutedEventArgs e)
+        {
+            if (TweetListView.SelectedItem == null) return;
+            scoreQueue.MoveItemDown(TweetListView.SelectedItem as ScoreInfo);
+            BindToView();
+        }
+
         private void BindToView()
         {
             tweets.Clear();

@@ -9,6 +9,7 @@ namespace DrumScore.UI
     public partial class MainWindow
     {
         private readonly ScoreQueue scoreQueue;
+        private readonly PlaybackQueue playbackQueue;
         private readonly ObservableCollection<ScoreInfo> tweets;
         private readonly ObservableCollection<ScoreInfo> playlist;
 
@@ -29,9 +30,11 @@ namespace DrumScore.UI
             tweets = new ObservableCollection<ScoreInfo>();
             playlist = new ObservableCollection<ScoreInfo>();
             scoreQueue = new ScoreQueue(new TwitterScoreFeed(), new Interpreter(new Tokeniser()), new Notifications());
+            playbackQueue = new PlaybackQueue(scoreQueue, new Playback(new OscOutput()));
 
             TweetListView.ItemsSource = tweets;
             PlaylistView.ItemsSource = playlist;
+            playbackQueue.Complete += PlaybackComplete;
         }
 
         private void Update(object sender, RoutedEventArgs e)
@@ -89,6 +92,17 @@ namespace DrumScore.UI
             {
                 playlist.Add(info);
             }
+        }
+
+        private void StartPlayback(object sender, RoutedEventArgs e)
+        {
+            playbackQueue.Play();
+            PlayButton.IsEnabled = false;
+        }
+
+        private void PlaybackComplete()
+        {
+            PlayButton.IsEnabled = true;
         }
     }
 }

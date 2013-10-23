@@ -5,7 +5,7 @@
         Height="350"
         Width="525">
 
-    <Grid>
+    <Grid Margin="10, 0, 10, 10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
@@ -64,7 +64,8 @@
                 VerticalAlignment="Center"
                 Content="→"
                 Name="BaseButton"
-                Click="MoveToPlaylist" />
+                Click="MoveToPlaylist"
+                Margin="5" />
 
         <Label Content="Playlist"
                Grid.Column="2" />
@@ -109,11 +110,19 @@
                     VerticalAlignment="Center">
             <Button Content="↑"
                     Width="{Binding Path=ActualWidth, ElementName=BaseButton}"
+                    Margin="5"
                     Click="MoveUp" />
             <Button Content="↓"
                     Width="{Binding Path=ActualWidth, ElementName=BaseButton}"
+                    Margin="5"
                     Click="MoveDown" />
         </StackPanel>
 
+        <StackPanel Grid.Column="4"
+                    Grid.Row="1">
+            <Button Content="Play"
+                    Name="PlayButton"
+                    Click="StartPlayback" />
+        </StackPanel>
     </Grid>
 </Window>

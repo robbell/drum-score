@@ -16,8 +16,8 @@ namespace DrumScore.Tests
             var score = new Mock<IScore>();
             score.Setup(s => s.Samples.Count).Returns(3);
             score.Setup(s => s.Samples[0]).Returns(samplesAtPosition1);
-            score.Setup(s => s.Samples[1]).Returns(samplesAtPosition2);
-            score.Setup(s => s.Samples[2]).Returns(samplesAtPosition3);
+            score.Setup(s => s.Samples[8]).Returns(samplesAtPosition2);
+            score.Setup(s => s.Samples[16]).Returns(samplesAtPosition3);
 
             var output = new Mock<IPlaybackOutput>();
 

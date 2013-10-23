@@ -5,6 +5,7 @@ namespace DrumScore
     public class Playback
     {
         private const int millisecondsBetweenFrames = 100;
+        private const int stepsPerBeat = 8;
         private readonly IPlaybackOutput output;
         public virtual event PlaybackComplete Complete;
 
@@ -18,10 +19,12 @@ namespace DrumScore
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            for (var position = 0; position < score.Samples.Count; position++)
+            for (var position = 0; position < score.Samples.Count * stepsPerBeat; position++)
             {
                 WaitForNextFrame(stopwatch);
-                output.Play(score.Samples[position]);
+
+                if (score.Samples.ContainsKey(position)) output.Play(score.Samples[position]);
+
                 stopwatch.Restart();
             }
 

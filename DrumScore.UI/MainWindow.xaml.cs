@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using DrumScore.Interpretation;
 using DrumScore.ScoreSourcing;
@@ -55,16 +56,23 @@ namespace DrumScore.UI
 
         private void MoveUp(object sender, RoutedEventArgs e)
         {
-            if (TweetListView.SelectedItem == null) return;
-            scoreQueue.MoveItemUp(TweetListView.SelectedItem as ScoreInfo);
-            BindToView();
+            MoveItem(scoreQueue.MoveItemUp);
         }
 
         private void MoveDown(object sender, RoutedEventArgs e)
         {
-            if (TweetListView.SelectedItem == null) return;
-            scoreQueue.MoveItemDown(TweetListView.SelectedItem as ScoreInfo);
+            MoveItem(scoreQueue.MoveItemDown);
+        }
+
+        private void MoveItem(Action<ScoreInfo> moveAction)
+        {
+            var itemToMove = PlaylistView.SelectedItem;
+
+            if (itemToMove == null) return;
+
+            moveAction(itemToMove as ScoreInfo);
             BindToView();
+            PlaylistView.SelectedItem = itemToMove;
         }
 
         private void BindToView()

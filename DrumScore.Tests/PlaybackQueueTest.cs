@@ -1,4 +1,5 @@
-﻿using DrumScore.ScoreSourcing;
+﻿using System.Collections.Generic;
+using DrumScore.ScoreSourcing;
 using Moq;
 using NUnit.Framework;
 
@@ -7,15 +8,23 @@ namespace DrumScore.Tests
     [TestFixture]
     public class PlaybackQueueTest
     {
+        private Mock<ScoreQueue> scoreQueue;
+        private Mock<Playback> playback;
+        private ScoreInfo scoreToPlay;
+        private PlaybackQueue queue;
+
+        [SetUp]
+        public void Setup()
+        {
+            scoreQueue = new Mock<ScoreQueue>(null, null, null);
+            playback = new Mock<Playback>(null);
+            scoreToPlay = new ScoreInfo();
+            queue = new PlaybackQueue(scoreQueue.Object, playback.Object);
+        }
+
         [Test]
         public void PlayPlaysNextScoreInPlaylist()
         {
-            var scoreQueue = new Mock<ScoreQueue>(null, null, null);
-            var playback = new Mock<Playback>(null);
-            var scoreToPlay = new ScoreInfo();
-
-            var queue = new PlaybackQueue(scoreQueue.Object, playback.Object);
-
             scoreQueue.Setup(s => s.GetNextScoreToPlay()).Returns(scoreToPlay);
 
             queue.Play();
@@ -27,11 +36,6 @@ namespace DrumScore.Tests
         [Test]
         public void OnPlaybackCompleteNextScoreIsPlayed()
         {
-            var scoreQueue = new Mock<ScoreQueue>(null, null, null);
-            var playback = new Mock<Playback>(null);
-            var scoreToPlay = new ScoreInfo();
-            var queue = new PlaybackQueue(scoreQueue.Object, playback.Object);
-
             scoreQueue.Setup(s => s.GetNextScoreToPlay()).Returns(scoreToPlay);
 
             queue.Play();
@@ -39,6 +43,22 @@ namespace DrumScore.Tests
 
             scoreQueue.Verify(s => s.GetNextScoreToPlay(), Times.Exactly(2));
             playback.Verify(p => p.Play(scoreToPlay.Score), Times.Exactly(2));
+        }
+
+        [Test]
+        public void StopsAndRaisesNotificationWhenAllScoresHaveBeenPlayed()
+        {
+            scoreQueue.Setup(s => s.GetNextScoreToPlay())
+                      .Returns(new Queue<ScoreInfo>(new[] { scoreToPlay, null }).Dequeue);
+
+            playback.Setup(p => p.Play(It.IsAny<IScore>())).Raises(p => p.Complete += null);
+
+            var eventRaised = false;
+            queue.Complete += () => eventRaised = true;
+
+            queue.Play();
+
+            Assert.That(eventRaised);
         }
     }
 }

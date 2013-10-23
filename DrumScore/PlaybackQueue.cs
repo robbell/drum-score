@@ -1,5 +1,4 @@
-﻿using System;
-using DrumScore.ScoreSourcing;
+﻿using DrumScore.ScoreSourcing;
 
 namespace DrumScore
 {
@@ -7,6 +6,7 @@ namespace DrumScore
     {
         private readonly ScoreQueue scoreQueue;
         private readonly Playback playback;
+        public event PlaybackComplete Complete;
 
         public PlaybackQueue(ScoreQueue scoreQueue, Playback playback)
         {
@@ -28,6 +28,13 @@ namespace DrumScore
         private void PlayNext()
         {
             var scoreInfo = scoreQueue.GetNextScoreToPlay();
+
+            if (scoreInfo == null && Complete != null)
+            {
+                Complete();
+                return;
+            }
+
             playback.Play(scoreInfo.Score);
         }
     }

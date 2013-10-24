@@ -39,7 +39,6 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition />
-                                <ColumnDefinition Width="20" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="{Binding TextScore}"
                                        Grid.ColumnSpan="2"
@@ -50,9 +49,6 @@
                                        Grid.Row="1"
                                        Grid.Column="1"
                                        TextAlignment="Right" />
-                            <Button Content="Play"
-                                    Grid.Column="2"
-                                    Grid.RowSpan="2" />
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
@@ -86,7 +82,6 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition />
-                            <ColumnDefinition Width="20" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="{Binding TextScore}"
                                    Grid.ColumnSpan="2"
@@ -97,9 +92,6 @@
                                    Grid.Row="1"
                                    Grid.Column="1"
                                    TextAlignment="Right" />
-                        <Button Content="Play"
-                                Grid.Column="2"
-                                Grid.RowSpan="2" />
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

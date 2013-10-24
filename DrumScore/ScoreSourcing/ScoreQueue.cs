@@ -10,7 +10,7 @@ namespace DrumScore.ScoreSourcing
         private readonly IScoreFeed feed;
         private readonly Interpreter interpreter;
         private readonly INotifications notifications;
-        private List<ScoreInfo> playHistory = new List<ScoreInfo>(); 
+        private readonly List<ScoreInfo> playHistory = new List<ScoreInfo>();
 
         public IList<ScoreInfo> Tweets { get; private set; }
         public IList<ScoreInfo> Playlist { get; private set; }
@@ -44,7 +44,11 @@ namespace DrumScore.ScoreSourcing
 
         private Func<ScoreInfo, bool> NotPlayedPreviously()
         {
-            return item => Tweets.All(s => s.Id != item.Id) && Playlist.All(s => s.Id != item.Id);
+            return
+                item =>
+                Tweets.All(s => s.Id != item.Id)
+                && Playlist.All(s => s.Id != item.Id)
+                && playHistory.All(s => s.Id != item.Id);
         }
 
         public void MoveToPlaylist(ScoreInfo scoreToMove)

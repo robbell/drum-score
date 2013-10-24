@@ -40,7 +40,7 @@ namespace DrumScore.UI
 
         private void Update(object sender, RoutedEventArgs e)
         {
-            UpdateButton.Content = "Loading...";
+            UpdateButton.Content = "Updating...";
             UpdateButton.IsEnabled = false;
             RunInBackground(scoreQueue.Update, UpdateComplete);
         }

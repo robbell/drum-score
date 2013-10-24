@@ -54,7 +54,7 @@ namespace DrumScore.Tests
             playback.Setup(p => p.Play(It.IsAny<IScore>())).Raises(p => p.Complete += null);
 
             var eventRaised = false;
-            queue.Complete += () => eventRaised = true;
+            queue.QueueComplete += () => eventRaised = true;
 
             queue.Play();
 

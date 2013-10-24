@@ -6,13 +6,13 @@ namespace DrumScore
     {
         private readonly ScoreQueue scoreQueue;
         private readonly Playback playback;
-        public event PlaybackComplete Complete;
+        public event PlaybackComplete QueueComplete;
 
         public PlaybackQueue(ScoreQueue scoreQueue, Playback playback)
         {
             this.scoreQueue = scoreQueue;
             this.playback = playback;
-            playback.Complete += OnPlaybackComplete;
+            playback.Complete += OnScoreComplete;
         }
 
         public void Play()
@@ -20,7 +20,7 @@ namespace DrumScore
             PlayNext();
         }
 
-        private void OnPlaybackComplete()
+        private void OnScoreComplete()
         {
             PlayNext();
         }
@@ -30,7 +30,7 @@ namespace DrumScore
             var scoreInfo = scoreQueue.GetNextScoreToPlay();
 
             if (scoreInfo != null) playback.Play(scoreInfo.Score);
-            else if (Complete != null) Complete();
+            else if (QueueComplete != null) QueueComplete();
         }
     }
 }

@@ -35,7 +35,7 @@ namespace DrumScore.UI
 
             TweetListView.ItemsSource = tweets;
             PlaylistView.ItemsSource = playlist;
-            playbackQueue.Complete += PlaybackComplete;
+            playbackQueue.QueueComplete += PlaybackComplete;
         }
 
         private void Update(object sender, RoutedEventArgs e)

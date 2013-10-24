@@ -14,6 +14,7 @@ namespace DrumScore.ScoreSourcing
 
         public IList<ScoreInfo> Tweets { get; private set; }
         public IList<ScoreInfo> Playlist { get; private set; }
+        public event QueueChanged QueueChanged;
 
         public ScoreQueue(IScoreFeed feed, Interpreter interpreter, INotifications notifications)
         {
@@ -85,8 +86,16 @@ namespace DrumScore.ScoreSourcing
 
             Playlist.Remove(nextScore);
             playHistory.Add(nextScore);
+            OnQueueChanged();
 
             return nextScore;
         }
+
+        private void OnQueueChanged()
+        {
+            if (QueueChanged != null) QueueChanged();
+        }
     }
+
+    public delegate void QueueChanged();
 }

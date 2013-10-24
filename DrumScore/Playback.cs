@@ -1,11 +1,11 @@
 ﻿using System.Diagnostics;
+using System.Linq;
 
 namespace DrumScore
 {
     public class Playback
     {
-        private const int millisecondsBetweenFrames = 100;
-        private const int stepsPerBeat = 8;
+        private const int millisecondsBetweenFrames = 30;
         private readonly IPlaybackOutput output;
         public virtual event PlaybackComplete Complete;
 
@@ -19,7 +19,7 @@ namespace DrumScore
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            for (var position = 0; position < score.Samples.Count * stepsPerBeat; position++)
+            for (var position = 0; position <= score.Samples.Keys.Last(); position++)
             {
                 WaitForNextFrame(stopwatch);
 

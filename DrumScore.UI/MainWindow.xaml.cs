@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
 using DrumScore.Interpretation;
 using DrumScore.ScoreSourcing;
@@ -39,8 +40,16 @@ namespace DrumScore.UI
 
         private void Update(object sender, RoutedEventArgs e)
         {
-            scoreQueue.Update();
+            UpdateButton.Content = "Loading...";
+            UpdateButton.IsEnabled = false;
+            RunInBackground(scoreQueue.Update, UpdateComplete);
+        }
+
+        private void UpdateComplete()
+        {
             BindToView();
+            UpdateButton.Content = "Update";
+            UpdateButton.IsEnabled = true;
         }
 
         private void MoveToPlaylist(object sender, RoutedEventArgs e)
@@ -103,6 +112,14 @@ namespace DrumScore.UI
         private void PlaybackComplete()
         {
             PlayButton.IsEnabled = true;
+        }
+
+        private void RunInBackground(Action work, Action onComplete)
+        {
+            var worker = new BackgroundWorker();
+            worker.DoWork += (s, a) => work();
+            worker.RunWorkerCompleted += (s, a) => onComplete();
+            worker.RunWorkerAsync();
         }
     }
 }

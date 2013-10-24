@@ -25,7 +25,8 @@
             <Button DockPanel.Dock="Bottom"
                     Height="Auto"
                     Content="Update Now"
-                    Click="Update" />
+                    Click="Update"
+                    Name="UpdateButton" />
             <ListView Name="TweetListView"
                       HorizontalContentAlignment="Stretch"
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled">

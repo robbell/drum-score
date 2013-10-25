@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using Moq;
 using NUnit.Framework;
 
@@ -26,11 +27,15 @@ namespace DrumScore.Tests
             var output = new Mock<IPlaybackOutput>();
 
             var player = new Playback(output.Object);
-            player.Play(score.Object);
 
-            output.Verify(o => o.Play(samplesAtPosition1));
-            output.Verify(o => o.Play(samplesAtPosition2));
-            output.Verify(o => o.Play(samplesAtPosition3));
+            player.Complete += () =>
+                {
+                    output.Verify(o => o.Play(samplesAtPosition1));
+                    output.Verify(o => o.Play(samplesAtPosition2));
+                    output.Verify(o => o.Play(samplesAtPosition3));
+                };
+
+            player.Play(score.Object);
         }
     }
 }

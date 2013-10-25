@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 
 namespace DrumScore
@@ -16,6 +17,14 @@ namespace DrumScore
 
         public virtual void Play(IScore score)
         {
+            var worker = new BackgroundWorker();
+            worker.DoWork += (s, e) => BeginPlay(score);
+            worker.RunWorkerCompleted += (s, e) => OnComplete();
+            worker.RunWorkerAsync();
+        }
+
+        private void BeginPlay(IScore score)
+        {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
@@ -27,8 +36,6 @@ namespace DrumScore
 
                 stopwatch.Restart();
             }
-
-            OnComplete();
         }
 
         private void WaitForNextFrame(Stopwatch stopwatch)

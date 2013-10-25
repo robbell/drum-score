@@ -35,9 +35,8 @@ namespace DrumScore.ScoreSourcing
                     Username = m.Creator.ScreenName,
                     DateTime = m.CreatedAt,
                 }).ToList();
-
             }
-            catch (WebException)
+            catch (WebException exception) // ToDo: Notifications for rate limiting
             {
                 return Enumerable.Empty<ScoreInfo>().ToList();
             }

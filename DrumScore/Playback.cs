@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 
@@ -6,9 +8,9 @@ namespace DrumScore
 {
     public class Playback
     {
-        private const int millisecondsBetweenFrames = 30;
-        private readonly IPlaybackOutput output;
         public virtual event PlaybackComplete Complete;
+        private readonly int millisecondsBetweenFrames = Convert.ToInt32(ConfigurationManager.AppSettings["MillisecondsBetweenFrames"]);
+        private readonly IPlaybackOutput output;
 
         public Playback(IPlaybackOutput output)
         {

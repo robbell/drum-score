@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Threading;
 using DrumScore.Interpretation;
 using DrumScore.ScoreSourcing;
 
@@ -36,6 +37,7 @@ namespace DrumScore.UI
             TweetListView.ItemsSource = tweets;
             PlaylistView.ItemsSource = playlist;
             playbackQueue.QueueComplete += PlaybackComplete;
+            scoreQueue.QueueChanged += BindToView;
         }
 
         private void Update(object sender, RoutedEventArgs e)
@@ -87,6 +89,25 @@ namespace DrumScore.UI
             PlaylistView.SelectedItem = itemToMove;
         }
 
+        private void StartPlayback(object sender, RoutedEventArgs e)
+        {
+            PlayButton.IsEnabled = false;
+            playbackQueue.Play();
+        }
+
+        private void PlaybackComplete()
+        {
+            PlayButton.IsEnabled = true;
+        }
+
+        private void RunInBackground(Action work, Action onComplete)
+        {
+            var worker = new BackgroundWorker();
+            worker.DoWork += (s, a) => work();
+            worker.RunWorkerCompleted += (s, a) => onComplete();
+            worker.RunWorkerAsync();
+        }
+
         private void BindToView()
         {
             tweets.Clear();
@@ -101,25 +122,6 @@ namespace DrumScore.UI
             {
                 playlist.Add(info);
             }
-        }
-
-        private void StartPlayback(object sender, RoutedEventArgs e)
-        {
-            playbackQueue.Play();
-            PlayButton.IsEnabled = false;
-        }
-
-        private void PlaybackComplete()
-        {
-            PlayButton.IsEnabled = true;
-        }
-
-        private void RunInBackground(Action work, Action onComplete)
-        {
-            var worker = new BackgroundWorker();
-            worker.DoWork += (s, a) => work();
-            worker.RunWorkerCompleted += (s, a) => onComplete();
-            worker.RunWorkerAsync();
         }
     }
 }

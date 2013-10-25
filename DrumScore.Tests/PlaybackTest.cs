@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using System.Collections.Generic;
+using Moq;
 using NUnit.Framework;
 
 namespace DrumScore.Tests
@@ -9,15 +10,18 @@ namespace DrumScore.Tests
         [Test]
         public void SamplesArePlayedToOutput()
         {
-            var samplesAtPosition1 = new[] {new Sample("=")};
-            var samplesAtPosition2 = new[] {new Sample("=")};
-            var samplesAtPosition3 = new[] {new Sample("=")};
+            var samplesAtPosition1 = new[] { new Sample("=") };
+            var samplesAtPosition2 = new[] { new Sample("=") };
+            var samplesAtPosition3 = new[] { new Sample("=") };
 
             var score = new Mock<IScore>();
-            score.Setup(s => s.Samples.Count).Returns(3);
-            score.Setup(s => s.Samples[0]).Returns(samplesAtPosition1);
-            score.Setup(s => s.Samples[8]).Returns(samplesAtPosition2);
-            score.Setup(s => s.Samples[16]).Returns(samplesAtPosition3);
+            score.Setup(s => s.Samples)
+                 .Returns(new Dictionary<int, ICollection<Sample>>
+                     {
+                         { 0, samplesAtPosition1 },
+                         { 8, samplesAtPosition2 },
+                         { 16, samplesAtPosition3 }
+                     });
 
             var output = new Mock<IPlaybackOutput>();
 

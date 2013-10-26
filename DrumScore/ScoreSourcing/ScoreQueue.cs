@@ -95,6 +95,11 @@ namespace DrumScore.ScoreSourcing
         {
             if (QueueChanged != null) QueueChanged();
         }
+
+        public virtual void MoveTopTweetToPlaylist()
+        {
+            if (Tweets.Any()) MoveToPlaylist(Tweets.First());
+        }
     }
 
     public delegate void QueueChanged();

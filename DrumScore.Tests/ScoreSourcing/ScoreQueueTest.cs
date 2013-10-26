@@ -122,5 +122,28 @@ namespace DrumScore.Tests.ScoreSourcing
 
             Assert.That(queue.Playlist.Last(), Is.EqualTo(scoreToMove));
         }
+
+        [Test]
+        public void MovesTopTweetScoreToPlaylist()
+        {
+            var scoreToMove = new ScoreInfo { Id = 123 };
+
+            queue.Tweets.Add(scoreToMove);
+            queue.Tweets.Add(new ScoreInfo());
+            queue.Tweets.Add(new ScoreInfo());
+
+            queue.MoveTopTweetToPlaylist();
+
+            Assert.That(queue.Playlist.Contains(scoreToMove));
+            Assert.That(queue.Tweets.Contains(scoreToMove), Is.False);
+        }
+
+        [Test]
+        public void DoesntAttemptToMoveIfTweetQueueIsEmpty()
+        {
+            queue.MoveTopTweetToPlaylist();
+
+            Assert.That(queue.Playlist, Is.Empty);
+        }
     }
 }

@@ -60,5 +60,16 @@ namespace DrumScore.Tests
 
             Assert.That(eventRaised);
         }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void PullsFromTweetQueueWhenEnabled(bool isEnabled)
+        {
+            queue.PullFromScoreQueue = isEnabled;
+
+            queue.Play();
+
+            scoreQueue.Verify(s => s.MoveTopTweetToPlaylist(), isEnabled ? Times.Once() : Times.Never());
+        }
     }
 }

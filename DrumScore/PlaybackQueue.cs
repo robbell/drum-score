@@ -8,6 +8,8 @@ namespace DrumScore
         private readonly Playback playback;
         public event PlaybackComplete QueueComplete;
 
+        public bool PullFromScoreQueue { get; set; }
+
         public PlaybackQueue(ScoreQueue scoreQueue, Playback playback)
         {
             this.scoreQueue = scoreQueue;
@@ -28,6 +30,12 @@ namespace DrumScore
         private void PlayNext()
         {
             var scoreInfo = scoreQueue.GetNextScoreToPlay();
+
+            if (scoreInfo == null && PullFromScoreQueue)
+            {
+                scoreQueue.MoveTopTweetToPlaylist();
+                scoreInfo = scoreQueue.GetNextScoreToPlay();
+            }
 
             if (scoreInfo != null) playback.Play(scoreInfo.Score);
             else if (QueueComplete != null) QueueComplete();

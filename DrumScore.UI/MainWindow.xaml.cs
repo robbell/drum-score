@@ -123,5 +123,10 @@ namespace DrumScore.UI
                 playlist.Add(info);
             }
         }
+
+        private void PullFromTweetQueueChanged(object sender, RoutedEventArgs e)
+        {
+            playbackQueue.PullFromScoreQueue = PullFromTweetQueue.IsChecked ?? false;
+        }
     }
 }

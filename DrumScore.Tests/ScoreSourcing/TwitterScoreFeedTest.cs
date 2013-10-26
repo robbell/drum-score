@@ -6,7 +6,7 @@ namespace DrumScore.Tests.ScoreSourcing
     [TestFixture]
     public class TwitterScoreFeedTest
     {
-        [Test]
+        [Test, Category("Requires internet connection"), Category("Long running")]
         public void GetsLatestScoreInfoFromTwitter()
         {
             var feed = new TwitterScoreFeed();

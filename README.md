@@ -1,11 +1,11 @@
-#drum-score (AKA TweetingMachines)
+#drum-score (AKA Tweeting Machines)
 
-'Tweeting Machines' is an interactive, robotic rhythm generator.
+*Tweeting Machines* is an interactive, robotic rhythm generator.
 
 Driven by an easy-to-use syntax, it utilises the flexibility of the Twitter platform to trigger custom-designed 
 mechanical percussion.
 
-As much an experiment into code-driven music as rhythmical interactivity, 'Tweeting Machines' is a sandpit for 
+As much an experiment into code-driven music as rhythmical interactivity, *Tweeting Machines* is a sandpit for 
 exploring the work of mechanical rhythm generation.
 
 Its operating modes will allow for:

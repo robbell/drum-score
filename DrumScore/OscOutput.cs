@@ -19,5 +19,14 @@ namespace DrumScore
 
             message.Send(endPoint);
         }
+
+        public void PlayScoreSeparator()
+        {
+            var message = new OscMessage(endPoint, "/");
+
+            message.Append("EOM");
+
+            message.Send(endPoint);
+        }
     }
 }

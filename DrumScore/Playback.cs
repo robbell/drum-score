@@ -10,6 +10,7 @@ namespace DrumScore
     {
         public virtual event PlaybackComplete Complete;
         private readonly int millisecondsBetweenFrames = Convert.ToInt32(ConfigurationManager.AppSettings["MillisecondsBetweenFrames"]);
+        private readonly int millisecondsBetweenScores = Convert.ToInt32(ConfigurationManager.AppSettings["SecondsBetweenScores"]) * 1000;
         private readonly IPlaybackOutput output;
 
         public Playback(IPlaybackOutput output)
@@ -32,22 +33,26 @@ namespace DrumScore
 
             for (var position = 0; position <= score.Samples.Keys.Last(); position++)
             {
-                WaitForNextFrame(stopwatch);
+                Wait(stopwatch, millisecondsBetweenFrames);
 
                 if (score.Samples.ContainsKey(position)) output.Play(score.Samples[position]);
 
                 stopwatch.Restart();
             }
-        }
 
-        private void WaitForNextFrame(Stopwatch stopwatch)
-        {
-            while (stopwatch.ElapsedMilliseconds < millisecondsBetweenFrames) { }
+            output.PlayScoreSeparator();
+
+            Wait(stopwatch, millisecondsBetweenScores);
         }
 
         private void OnComplete()
         {
             if (Complete != null) Complete();
+        }
+
+        private void Wait(Stopwatch stopwatch, int millisecondsToWait)
+        {
+            while (stopwatch.ElapsedMilliseconds < millisecondsToWait) { }
         }
     }
 

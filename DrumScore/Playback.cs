@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Configuration;
 using System.Diagnostics;
@@ -35,7 +36,7 @@ namespace DrumScore
             {
                 Wait(stopwatch, millisecondsBetweenFrames);
 
-                if (score.Samples.ContainsKey(position)) output.Play(score.Samples[position]);
+                output.Play(score.Samples.ContainsKey(position) ? score.Samples[position] : new Collection<Sample>());
 
                 stopwatch.Restart();
             }

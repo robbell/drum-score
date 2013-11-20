@@ -11,12 +11,12 @@ namespace DrumScore.Tests.Interpretation.Expressions
         public void EarlyExpressionMovesScorePositionBackwards()
         {
             var score = new Mock<IScore>();
-            var expression = new OffsetSampleExpression("\\*");
+            var expression = new OffsetSampleExpression("\\2");
 
             expression.Interpret(score.Object);
 
             score.Verify(s => s.SetPosition(-1));
-            score.Verify(s => s.AddSample(It.Is<Sample>(b => b.Type == "*")), Times.Once());
+            score.Verify(s => s.AddSample(It.Is<Sample>(b => b.Type == "2")), Times.Once());
             score.Verify(s => s.Progress());
         }
 
@@ -24,13 +24,13 @@ namespace DrumScore.Tests.Interpretation.Expressions
         public void LateExpressionMovesScorePositionForwards()
         {
             var score = new Mock<IScore>();
-            var expression = new OffsetSampleExpression("/=*");
+            var expression = new OffsetSampleExpression("/23");
 
             expression.Interpret(score.Object);
 
             score.Verify(s => s.SetPosition(1));
-            score.Verify(s => s.AddSample(It.Is<Sample>(b => b.Type == "=")), Times.Once());
-            score.Verify(s => s.AddSample(It.Is<Sample>(b => b.Type == "*")), Times.Once());
+            score.Verify(s => s.AddSample(It.Is<Sample>(b => b.Type == "2")), Times.Once());
+            score.Verify(s => s.AddSample(It.Is<Sample>(b => b.Type == "3")), Times.Once());
             score.Verify(s => s.Progress());
         }
 
@@ -39,12 +39,12 @@ namespace DrumScore.Tests.Interpretation.Expressions
         public void ExpressionMovesScoreCorrectNumberOfPlaces(string token, int expectedOffset)
         {
             var score = new Mock<IScore>();
-            var expression = new OffsetSampleExpression(token + "=");
+            var expression = new OffsetSampleExpression(token + "4");
 
             expression.Interpret(score.Object);
 
             score.Verify(s => s.SetPosition(expectedOffset));
-            score.Verify(s => s.AddSample(It.Is<Sample>(b => b.Type == "=")), Times.Once());
+            score.Verify(s => s.AddSample(It.Is<Sample>(b => b.Type == "4")), Times.Once());
             score.Verify(s => s.Progress());
         }
     }

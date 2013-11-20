@@ -5,7 +5,7 @@ namespace DrumScore.Interpretation.Expressions
 {
     public class OffsetSampleExpression : IExpression
     {
-        private const string offsetSamplePattern = @"^([0-8]?)(\\|\/)([\*\^o=]+$)";
+        private const string offsetSamplePattern = @"^([0-8]?)(\\|\/)([1-4]+$)";
         private readonly string token;
 
         public OffsetSampleExpression(string token)

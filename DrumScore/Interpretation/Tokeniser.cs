@@ -7,7 +7,7 @@ namespace DrumScore.Interpretation
 {
     public class Tokeniser
     {
-        private const string samplePattern = @"^[\*\^o=]+$";
+        private const string samplePattern = @"^[1-4]+$";
         private const string skipBeatPattern = ".";
         private const string beatSeparator = " ";
 

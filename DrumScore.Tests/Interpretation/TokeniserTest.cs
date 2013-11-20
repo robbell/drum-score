@@ -16,10 +16,10 @@ namespace DrumScore.Tests.Interpretation
             tokeniser = new Tokeniser();
         }
 
-        [TestCase("^")]
-        [TestCase("=")]
-        [TestCase("o")]
-        [TestCase("*")]
+        [TestCase("1")]
+        [TestCase("2")]
+        [TestCase("3")]
+        [TestCase("4")]
         public void SampleTokenReturnsSampleExpression(string score)
         {
             var expression = tokeniser.ReadTokens(score).First();
@@ -39,7 +39,7 @@ namespace DrumScore.Tests.Interpretation
         [Test]
         public void MixedScoreCreatesMixedExpressions()
         {
-            var expression = tokeniser.ReadTokens("* . o");
+            var expression = tokeniser.ReadTokens("1 . 2");
 
             Assert.That(expression[0], Is.TypeOf<SampleExpression>());
             Assert.That(expression[1], Is.TypeOf<SkipBeatExpression>());
@@ -49,16 +49,16 @@ namespace DrumScore.Tests.Interpretation
         [Test]
         public void ConsecutiveSampleTokensAreGroupedAsSimultaneousSampleExpression()
         {
-            var expression = tokeniser.ReadTokens("*=^").First();
+            var expression = tokeniser.ReadTokens("123").First();
 
             Assert.That(expression, Is.TypeOf<SampleExpression>());
-            Assert.That(((SampleExpression)expression).Sample, Is.EqualTo("*=^"));
+            Assert.That(((SampleExpression)expression).Sample, Is.EqualTo("123"));
         }
 
         [Test]
         public void EarlyOffsetTokenCreatesEarlyOffsetSampleWithDefaultOffset()
         {
-            var expression = tokeniser.ReadTokens(@"\*").First();
+            var expression = tokeniser.ReadTokens(@"\4").First();
 
             Assert.That(expression, Is.TypeOf<OffsetSampleExpression>());
         }
@@ -66,7 +66,7 @@ namespace DrumScore.Tests.Interpretation
         [Test]
         public void LateOffsetTokenCreatesLateOffsetSampleWithDefaultOffset()
         {
-            var expression = tokeniser.ReadTokens(@"/*").First();
+            var expression = tokeniser.ReadTokens(@"/2").First();
 
             Assert.That(expression, Is.TypeOf<OffsetSampleExpression>());
         }
@@ -75,7 +75,7 @@ namespace DrumScore.Tests.Interpretation
         [TestCase(8)]
         public void OffsetTokenCreatesOffsetSampleWithCorrectOffset(int offset)
         {
-            var score = string.Format(@"{0}\*", offset);
+            var score = string.Format(@"{0}\3", offset);
 
             var expression = tokeniser.ReadTokens(score).First();
 
@@ -86,7 +86,7 @@ namespace DrumScore.Tests.Interpretation
         [ExpectedException(typeof(UnrecognisedTokenException))]
         public void UnrecognisedTokenThrowsException()
         {
-            const string badScore = "*=.";
+            const string badScore = "12.";
 
             tokeniser.ReadTokens(badScore);
         }

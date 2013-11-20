@@ -31,7 +31,7 @@ namespace DrumScore.ScoreSourcing
                 return user.GetLatestMentionsTimeline().Select(m => new ScoreInfo
                 {
                     Id = m.Id,
-                    TextScore = StripMentions(m.Text),
+                    TextScore = DecodeBackslashes(StripMentions(m.Text)),
                     Username = m.Creator.ScreenName,
                     DateTime = m.CreatedAt,
                 }).ToList();
@@ -45,6 +45,11 @@ namespace DrumScore.ScoreSourcing
         private string StripMentions(string tweet) // ToDo: this should be unit tested
         {
             return Regex.Replace(tweet, @"@([A-Za-z0-9_]+\w)", string.Empty);
+        }
+
+        private string DecodeBackslashes(string tweet) // ToDo: this should be unit tested
+        {
+            return tweet.Replace(@"\\", @"\");
         }
     }
 }

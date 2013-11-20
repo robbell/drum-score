@@ -4,7 +4,8 @@ namespace DrumScore
 {
     public interface IPlaybackOutput
     {
+        void PlayScoreStart(string creator);
         void Play(ICollection<Sample> samples);
-        void PlayScoreSeparator();
+        void PlayScoreEnd();
     }
 }

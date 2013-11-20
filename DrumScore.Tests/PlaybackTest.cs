@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading;
 using Moq;
 using NUnit.Framework;
 
@@ -35,7 +34,7 @@ namespace DrumScore.Tests
                     output.Verify(o => o.Play(samplesAtPosition3));
                 };
 
-            player.Play(score.Object);
+            player.Play(new ScoreInfo { Score = score.Object });
         }
     }
 }

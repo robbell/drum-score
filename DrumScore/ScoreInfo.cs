@@ -7,7 +7,7 @@ namespace DrumScore
         public long? Id { get; set; }
         public string Username { get; set; }
         public string TextScore { get; set; }
-        public Score Score { get; set; }
+        public IScore Score { get; set; }
         public DateTime DateTime { get; set; }
     }
 }

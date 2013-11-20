@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using Bespoke.Common.Osc;
 
@@ -8,23 +9,32 @@ namespace DrumScore
     {
         private readonly IPEndPoint endPoint = new IPEndPoint(IPAddress.Loopback, 12013);
 
-        public void Play(ICollection<Sample> samples)
+        public void PlayScoreStart(string creator)
         {
-            var message = new OscMessage(endPoint, "/");
-
-            foreach (var sample in samples)
-            {
-                message.Append(sample.Type);
-            }
-
-            message.Send(endPoint);
+            SendMessage(m => m.Append(string.Format("BOM {0}", creator)));
         }
 
-        public void PlayScoreSeparator()
+        public void PlayScoreEnd()
+        {
+            SendMessage(m => m.Append("EOM"));
+        }
+
+        public void Play(ICollection<Sample> samples)
+        {
+            SendMessage(m =>
+                {
+                    foreach (var sample in samples)
+                    {
+                        m.Append(sample.Type);
+                    }
+                });
+        }
+
+        private void SendMessage(Action<OscMessage> appendAction)
         {
             var message = new OscMessage(endPoint, "/");
 
-            message.Append("EOM");
+            appendAction(message);
 
             message.Send(endPoint);
         }

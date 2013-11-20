@@ -19,19 +19,30 @@ namespace DrumScore
             this.output = output;
         }
 
-        public virtual void Play(IScore score)
+        public virtual void Play(ScoreInfo info)
         {
             var worker = new BackgroundWorker();
-            worker.DoWork += (s, e) => BeginPlay(score);
+            worker.DoWork += (s, e) => BeginPlay(info);
             worker.RunWorkerCompleted += (s, e) => OnComplete();
             worker.RunWorkerAsync();
         }
 
-        private void BeginPlay(IScore score)
+        private void BeginPlay(ScoreInfo info)
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
+            output.PlayScoreStart(info.Username);
+
+            PlayScore(info.Score, stopwatch);
+
+            output.PlayScoreEnd();
+
+            Wait(stopwatch, millisecondsBetweenScores);
+        }
+
+        private void PlayScore(IScore score, Stopwatch stopwatch)
+        {
             for (var position = 0; position <= score.Samples.Keys.Last(); position++)
             {
                 Wait(stopwatch, millisecondsBetweenFrames);
@@ -40,10 +51,6 @@ namespace DrumScore
 
                 stopwatch.Restart();
             }
-
-            output.PlayScoreSeparator();
-
-            Wait(stopwatch, millisecondsBetweenScores);
         }
 
         private void OnComplete()

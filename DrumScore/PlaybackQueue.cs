@@ -37,7 +37,7 @@ namespace DrumScore
                 scoreInfo = scoreQueue.GetNextScoreToPlay();
             }
 
-            if (scoreInfo != null) playback.Play(scoreInfo.Score);
+            if (scoreInfo != null) playback.Play(scoreInfo);
             else if (QueueComplete != null) QueueComplete();
         }
     }

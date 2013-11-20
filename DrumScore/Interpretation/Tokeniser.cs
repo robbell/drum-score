@@ -8,7 +8,6 @@ namespace DrumScore.Interpretation
     public class Tokeniser
     {
         private const string samplePattern = @"^[\*\^o=]+$";
-        private const string offsetSamplePattern = @"^([0-8]?)(\\|\/)([\*\^o=]+$)";
         private const string skipBeatPattern = ".";
         private const string beatSeparator = " ";
 
@@ -21,7 +20,7 @@ namespace DrumScore.Interpretation
             {
                 if (Regex.IsMatch(token, samplePattern)) expressions.Add(new SampleExpression(token));
 
-                else if (Regex.IsMatch(token, offsetSamplePattern)) expressions.Add(CreateOffsetExpression(token));
+                else if (OffsetSampleExpression.IsMatch(token)) expressions.Add(new OffsetSampleExpression(token));
 
                 else if (token == skipBeatPattern) expressions.Add(new SkipBeatExpression());
 
@@ -29,16 +28,6 @@ namespace DrumScore.Interpretation
             }
 
             return expressions;
-        }
-
-        private OffsetSampleExpression CreateOffsetExpression(string token)
-        {
-            var groups = Regex.Match(token, offsetSamplePattern).Groups;
-
-            var offset = string.IsNullOrEmpty(groups[1].Value) ? 1 : Convert.ToInt32(groups[1].Value);
-            var timing = groups[2].Value == @"\" ? OffsetTiming.Early : OffsetTiming.Late;
-
-            return new OffsetSampleExpression(token) { Timing = timing, Offset = offset };
         }
     }
 

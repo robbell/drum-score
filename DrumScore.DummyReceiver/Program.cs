@@ -24,10 +24,19 @@ namespace DrumScore.DummyReceiver
         {
             foreach (var sample in e.Message.Data)
             {
-                Console.Write(sample);
+                WriteMessage(sample);
             }
 
             Console.WriteLine();
+        }
+
+        private static void WriteMessage(object sample)
+        {
+            int instrumentIndex;
+
+            int.TryParse(sample.ToString(), out instrumentIndex); ;
+
+            Console.WriteLine("{0, " + instrumentIndex + "}", sample);
         }
     }
 }

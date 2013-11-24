@@ -30,19 +30,22 @@ namespace DrumScore.UI
 
             tweets = new ObservableCollection<ScoreInfo>();
             playlist = new ObservableCollection<ScoreInfo>();
-
-            var channel1 = new Playback(new OscOutput(12013));
-            var channel2 = new Playback(new OscOutput(12014));
-
-            scoreQueue = new ScoreQueue(new TwitterScoreFeed(), new Interpreter(new Tokeniser()), new Notifications());
-
-            var controlMessages = new ControlMessages(scoreQueue, channel1, channel2);
-            controlMessages.Initialise();
-
             TweetListView.ItemsSource = tweets;
             PlaylistView.ItemsSource = playlist;
+
+            scoreQueue = new ScoreQueue(new TwitterScoreFeed(), new Interpreter(new Tokeniser()), new Notifications());
             scoreQueue.QueueChanged +=
                 () => Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(BindToView));
+
+            var controlMessages = new ControlMessages(scoreQueue, new Playback(new OscOutput(12013)), new Playback(new OscOutput(12014)));
+            controlMessages.Initialise();
+
+            Update(null, null);
+
+            var dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Tick += (s, e) => Update(null, null);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 60);
+            dispatcherTimer.Start();
         }
 
         private void Update(object sender, RoutedEventArgs e)

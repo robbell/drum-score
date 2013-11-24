@@ -75,9 +75,11 @@ namespace DrumScore.Tests
             Assert.That(score.Samples[initialPosition + adjustment].Contains(sample));
         }
 
-        [TestCase(3, 16)]
-        [TestCase(-2, 8)]
-        public void ProgressAfterSetPositionMovesToNextBeat(int adjustment, int expectedPosition)
+        [TestCase(3, 16, 24)]
+        [TestCase(6, 16, 24)]
+        [TestCase(-2, 8, 16)]
+        [TestCase(-3, 8, 16)]
+        public void ProgressAfterSetPositionMovesToNextBeat(int adjustment, int expectedNextPosition, int expectedLastPosition)
         {
             var dummySample = new Sample("=");
             var expectedSample = new Sample("=");
@@ -88,8 +90,11 @@ namespace DrumScore.Tests
             score.AddSample(dummySample);
             score.Progress();
             score.AddSample(expectedSample);
+            score.Progress();
+            score.AddSample(expectedSample);
 
-            Assert.That(score.Samples[expectedPosition].Contains(expectedSample));
+            Assert.That(score.Samples[expectedNextPosition].Contains(expectedSample));
+            Assert.That(score.Samples[expectedLastPosition].Contains(expectedSample));
         }
     }
 }

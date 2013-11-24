@@ -32,18 +32,14 @@ namespace DrumScore
 
         public void Progress()
         {
-            if (offset < 0) RestoreToOriginalPosition();
             if (offset >= 0) ProgressToNextBeat();
-        }
 
-        private void RestoreToOriginalPosition()
-        {
-            position += -offset;
+            offset = 0;
         }
 
         private void ProgressToNextBeat()
         {
-            position += progression - offset;
+            position += progression;
         }
     }
 }

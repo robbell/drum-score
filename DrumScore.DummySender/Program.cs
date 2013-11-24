@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Net;
 using Bespoke.Common.Osc;
 
@@ -6,7 +7,7 @@ namespace DrumScore.DummySender
 {
     public class Program
     {
-        private static readonly IPEndPoint endPoint = new IPEndPoint(IPAddress.Loopback, 12015);
+        private static readonly IPEndPoint endPoint = new IPEndPoint(IPAddress.Loopback, Convert.ToInt32(ConfigurationManager.AppSettings["SendOnPort"]));
 
         public static void Main()
         {

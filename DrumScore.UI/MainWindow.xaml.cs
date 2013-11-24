@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Configuration;
 using System.Windows;
 using System.Windows.Threading;
 using DrumScore.Interpretation;
@@ -37,18 +38,16 @@ namespace DrumScore.UI
             scoreQueue.QueueChanged +=
                 () => Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(BindToView));
 
-            var controlMessages = new ControlMessages(scoreQueue, new Playback(new OscOutput(12013)), new Playback(new OscOutput(12014)));
-            controlMessages.Initialise();
-
-            Update(null, null);
+            InitialiseListener();
+            UpdateTweetList(null, null);
 
             var dispatcherTimer = new DispatcherTimer();
-            dispatcherTimer.Tick += (s, e) => Update(null, null);
+            dispatcherTimer.Tick += (s, e) => UpdateTweetList(null, null);
             dispatcherTimer.Interval = new TimeSpan(0, 0, 60);
             dispatcherTimer.Start();
         }
 
-        private void Update(object sender, RoutedEventArgs e)
+        private void UpdateTweetList(object sender, RoutedEventArgs e)
         {
             UpdateButton.Content = "Updating...";
             UpdateButton.IsEnabled = false;
@@ -60,6 +59,15 @@ namespace DrumScore.UI
             BindToView();
             UpdateButton.Content = "Update";
             UpdateButton.IsEnabled = true;
+        }
+
+        private void InitialiseListener()
+        {
+            new ControlMessages(scoreQueue,
+                                new Playback(
+                                    new OscOutput(Convert.ToInt32(ConfigurationManager.AppSettings["Channel1Port"]))),
+                                new Playback(
+                                    new OscOutput(Convert.ToInt32(ConfigurationManager.AppSettings["Channel2Port"])))).Initialise();
         }
 
         private void MoveToPlaylist(object sender, RoutedEventArgs e)

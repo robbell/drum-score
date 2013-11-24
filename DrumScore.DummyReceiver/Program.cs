@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Net;
 using Bespoke.Common.Osc;
 
@@ -8,7 +9,8 @@ namespace DrumScore.DummyReceiver
     {
         public static void Main()
         {
-            var server = new OscServer(TransportType.Udp, IPAddress.Loopback, 12013);
+            var server = new OscServer(TransportType.Udp, IPAddress.Loopback,
+                                       Convert.ToInt32(ConfigurationManager.AppSettings["ListenOnPort"]));
             server.RegisterMethod("/");
             server.MessageReceived += MessageReceived;
             server.Start();

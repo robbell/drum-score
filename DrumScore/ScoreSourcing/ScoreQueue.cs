@@ -82,6 +82,10 @@ namespace DrumScore.ScoreSourcing
         {
             var nextScore = Playlist.FirstOrDefault();
 
+            if (nextScore == null) MoveTopTweetToPlaylist();
+
+            nextScore = Playlist.FirstOrDefault();
+
             if (nextScore == null) return null;
 
             Playlist.Remove(nextScore);

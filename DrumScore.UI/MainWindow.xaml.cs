@@ -11,7 +11,6 @@ namespace DrumScore.UI
     public partial class MainWindow
     {
         private readonly ScoreQueue scoreQueue;
-        private readonly PlaybackQueue playbackQueue;
         private readonly ObservableCollection<ScoreInfo> tweets;
         private readonly ObservableCollection<ScoreInfo> playlist;
 
@@ -31,13 +30,19 @@ namespace DrumScore.UI
 
             tweets = new ObservableCollection<ScoreInfo>();
             playlist = new ObservableCollection<ScoreInfo>();
+
+            var channel1 = new Playback(new OscOutput(12013));
+            var channel2 = new Playback(new OscOutput(12014));
+
             scoreQueue = new ScoreQueue(new TwitterScoreFeed(), new Interpreter(new Tokeniser()), new Notifications());
-            playbackQueue = new PlaybackQueue(scoreQueue, new Playback(new OscOutput()));
+
+            var controlMessages = new ControlMessages(scoreQueue, channel1, channel2);
+            controlMessages.Initialise();
 
             TweetListView.ItemsSource = tweets;
             PlaylistView.ItemsSource = playlist;
-            playbackQueue.QueueComplete += PlaybackComplete;
-            scoreQueue.QueueChanged += BindToView;
+            scoreQueue.QueueChanged +=
+                () => Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(BindToView));
         }
 
         private void Update(object sender, RoutedEventArgs e)
@@ -89,17 +94,6 @@ namespace DrumScore.UI
             PlaylistView.SelectedItem = itemToMove;
         }
 
-        private void StartPlayback(object sender, RoutedEventArgs e)
-        {
-            PlayButton.IsEnabled = false;
-            playbackQueue.Play();
-        }
-
-        private void PlaybackComplete()
-        {
-            PlayButton.IsEnabled = true;
-        }
-
         private void RunInBackground(Action work, Action onComplete)
         {
             var worker = new BackgroundWorker();
@@ -122,11 +116,6 @@ namespace DrumScore.UI
             {
                 playlist.Add(info);
             }
-        }
-
-        private void PullFromTweetQueueChanged(object sender, RoutedEventArgs e)
-        {
-            playbackQueue.PullFromScoreQueue = PullFromTweetQueue.IsChecked ?? false;
         }
     }
 }

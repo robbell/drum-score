@@ -5,7 +5,7 @@
         Height="350"
         Width="525">
 
-    <Grid Margin="10, 0, 10, 10">
+    <Grid Margin="10, 0, 0, 10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
@@ -15,7 +15,6 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
         <Label Content="Tweets" />
@@ -109,17 +108,6 @@
                     Width="{Binding Path=ActualWidth, ElementName=BaseButton}"
                     Margin="5"
                     Click="MoveDown" />
-        </StackPanel>
-
-        <StackPanel Grid.Column="4"
-                    Grid.Row="1">
-            <Button Content="Play"
-                    Name="PlayButton"
-                    Click="StartPlayback" />
-            <CheckBox Name="PullFromTweetQueue"
-                      Checked="PullFromTweetQueueChanged"
-                      VerticalAlignment="Center"
-                      Content="Pull from Tweet queue" />
         </StackPanel>
     </Grid>
 </Window>

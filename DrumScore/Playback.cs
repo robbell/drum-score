@@ -11,8 +11,9 @@ namespace DrumScore
     {
         public virtual event PlaybackComplete Complete;
         private readonly int millisecondsBetweenFrames = Convert.ToInt32(ConfigurationManager.AppSettings["MillisecondsBetweenFrames"]);
-        private readonly int millisecondsBetweenScores = Convert.ToInt32(ConfigurationManager.AppSettings["SecondsBetweenScores"]) * 1000;
         private readonly IPlaybackOutput output;
+
+        public bool IsPlaying { get; private set; }
 
         public Playback(IPlaybackOutput output)
         {
@@ -21,6 +22,8 @@ namespace DrumScore
 
         public virtual void Play(ScoreInfo info)
         {
+            IsPlaying = true;
+
             var worker = new BackgroundWorker();
             worker.DoWork += (s, e) => BeginPlay(info);
             worker.RunWorkerCompleted += (s, e) => OnComplete();
@@ -37,8 +40,6 @@ namespace DrumScore
             PlayScore(info.Score, stopwatch);
 
             output.PlayScoreEnd();
-
-            Wait(stopwatch, millisecondsBetweenScores);
         }
 
         private void PlayScore(IScore score, Stopwatch stopwatch)
@@ -55,6 +56,8 @@ namespace DrumScore
 
         private void OnComplete()
         {
+            IsPlaying = false;
+
             if (Complete != null) Complete();
         }
 

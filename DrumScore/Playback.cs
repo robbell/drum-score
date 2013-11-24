@@ -10,8 +10,8 @@ namespace DrumScore
     public class Playback
     {
         public virtual event PlaybackComplete Complete;
-        private readonly int millisecondsBetweenFrames = Convert.ToInt32(ConfigurationManager.AppSettings["MillisecondsBetweenFrames"]);
         private readonly IPlaybackOutput output;
+        private int millisecondsBetweenFrames;
 
         public bool IsPlaying { get; private set; }
 
@@ -20,14 +20,23 @@ namespace DrumScore
             this.output = output;
         }
 
-        public virtual void Play(ScoreInfo info)
+        public virtual void Play(ScoreInfo info, int tempo = 60)
         {
+            SetTimeBetweenFrames(tempo);
+
             IsPlaying = true;
 
             var worker = new BackgroundWorker();
             worker.DoWork += (s, e) => BeginPlay(info);
             worker.RunWorkerCompleted += (s, e) => OnComplete();
             worker.RunWorkerAsync();
+        }
+
+        private void SetTimeBetweenFrames(int tempo)
+        {
+            const int framesPerBeat = 32;
+            var beatsPerSecond = tempo / 60d;
+            millisecondsBetweenFrames = (int)(1000 / (framesPerBeat * beatsPerSecond));
         }
 
         private void BeginPlay(ScoreInfo info)

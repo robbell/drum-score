@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Mime;
 using Bespoke.Common.Osc;
 using DrumScore.ScoreSourcing;
@@ -37,7 +38,7 @@ namespace DrumScore
 
             var score = scoreQueue.GetNextScoreToPlay();
 
-            if (score != null) channel.Play(score);
+            if (score != null) channel.Play(score, Convert.ToInt32(messageParts.Last()));
         }
 
         private Playback GetPlaybackChannel(string channelName)

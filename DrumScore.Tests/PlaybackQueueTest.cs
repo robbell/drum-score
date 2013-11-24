@@ -30,7 +30,7 @@ namespace DrumScore.Tests
             queue.Play();
 
             scoreQueue.Verify(s => s.GetNextScoreToPlay());
-            playback.Verify(p => p.Play(scoreToPlay));
+            playback.Verify(p => p.Play(scoreToPlay, 60));
         }
 
         [Test]
@@ -42,7 +42,7 @@ namespace DrumScore.Tests
             playback.Raise(p => p.Complete += null);
 
             scoreQueue.Verify(s => s.GetNextScoreToPlay(), Times.Exactly(2));
-            playback.Verify(p => p.Play(scoreToPlay), Times.Exactly(2));
+            playback.Verify(p => p.Play(scoreToPlay, 60), Times.Exactly(2));
         }
 
         [Test]
@@ -51,7 +51,7 @@ namespace DrumScore.Tests
             scoreQueue.Setup(s => s.GetNextScoreToPlay())
                       .Returns(new Queue<ScoreInfo>(new[] { scoreToPlay, null }).Dequeue);
 
-            playback.Setup(p => p.Play(It.IsAny<ScoreInfo>())).Raises(p => p.Complete += null);
+            playback.Setup(p => p.Play(It.IsAny<ScoreInfo>(), It.IsAny<int>())).Raises(p => p.Complete += null);
 
             var eventRaised = false;
             queue.QueueComplete += () => eventRaised = true;

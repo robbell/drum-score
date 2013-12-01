@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Net;
 using System.Net.Mime;
 using Bespoke.Common.Osc;
@@ -22,7 +23,7 @@ namespace DrumScore
 
         public void Initialise()
         {
-            var server = new OscServer(TransportType.Udp, IPAddress.Loopback, 12015);
+            var server = new OscServer(TransportType.Udp, IPAddress.Loopback, Convert.ToInt32(ConfigurationManager.AppSettings["ListenOnPort"]));
             server.RegisterMethod("/");
             server.MessageReceived += MessageReceived;
             server.Start();

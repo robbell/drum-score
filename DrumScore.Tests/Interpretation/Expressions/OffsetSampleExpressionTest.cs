@@ -34,8 +34,12 @@ namespace DrumScore.Tests.Interpretation.Expressions
             score.Verify(s => s.Progress());
         }
 
-        [TestCase("2/", 2)]
-        [TestCase("3\\", -3)]
+        [TestCase(@"/", 1)]
+        [TestCase(@"\", -1)]
+        [TestCase(@"2/", 2)]
+        [TestCase(@"3\", -3)]
+        [TestCase(@"////", 4)]
+        [TestCase(@"\\\", -3)]
         public void ExpressionMovesScoreCorrectNumberOfPlaces(string token, int expectedOffset)
         {
             var score = new Mock<IScore>();

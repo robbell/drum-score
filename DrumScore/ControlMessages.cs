@@ -31,20 +31,20 @@ namespace DrumScore
 
         private void MessageReceived(object sender, OscMessageReceivedEventArgs e)
         {
-            var messageParts = e.Message.Data.First().ToString().Split(' ');
+            var channelName = e.Message.Data.First().ToString();
 
-            var channel = GetPlaybackChannel(messageParts.First());
+            var channel = GetPlaybackChannel(channelName);
 
             if (channel.IsPlaying) return;
 
             var score = scoreQueue.GetNextScoreToPlay();
 
-            if (score != null) channel.Play(score, Convert.ToInt32(messageParts.Last()));
+            if (score != null) channel.Play(score, Convert.ToInt32(e.Message.Data.Last()));
         }
 
         private Playback GetPlaybackChannel(string channelName)
         {
-            return channelName == "CH1" ? channel1 : channel2;
+            return channelName.ToUpper() == "CH1" ? channel1 : channel2;
         }
     }
 }

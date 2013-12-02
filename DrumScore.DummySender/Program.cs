@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Net;
 using Bespoke.Common.Osc;
@@ -29,7 +30,10 @@ namespace DrumScore.DummySender
         {
             var message = new OscMessage(endPoint, "/");
 
-            message.Append(messageText);
+            foreach (var item in messageText.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                message.Append(item);
+            }
 
             message.Send(endPoint);
         }

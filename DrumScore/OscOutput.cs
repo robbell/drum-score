@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Net;
 using Bespoke.Common.Osc;
 
@@ -11,7 +12,7 @@ namespace DrumScore
 
         public OscOutput(int listeningPort)
         {
-            endPoint = new IPEndPoint(IPAddress.Loopback, listeningPort);
+            endPoint = new IPEndPoint(IPAddress.Parse(ConfigurationManager.AppSettings["SendToIp"]), listeningPort);
         }
 
         public void PlayScoreStart(string creator)

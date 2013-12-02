@@ -7,7 +7,9 @@ namespace DrumScore.DummySender
 {
     public class Program
     {
-        private static readonly IPEndPoint endPoint = new IPEndPoint(IPAddress.Loopback, Convert.ToInt32(ConfigurationManager.AppSettings["SendOnPort"]));
+        private static readonly IPEndPoint endPoint =
+            new IPEndPoint(IPAddress.Parse(ConfigurationManager.AppSettings["SendToIp"]),
+                           Convert.ToInt32(ConfigurationManager.AppSettings["SendOnPort"]));
 
         public static void Main()
         {

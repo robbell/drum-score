@@ -72,7 +72,7 @@ namespace DrumScore.Tests.Interpretation
         }
 
         [TestCase(1)]
-        [TestCase(8)]
+        [TestCase(7)]
         public void OffsetTokenCreatesOffsetSampleWithCorrectOffset(int offset)
         {
             var score = string.Format(@"{0}\3", offset);

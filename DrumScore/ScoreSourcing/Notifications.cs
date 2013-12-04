@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net;
 using DrumScore.Interpretation;
 using Tweetinvi;
 
@@ -7,7 +6,7 @@ namespace DrumScore.ScoreSourcing
 {
     public class Notifications : INotifications
     {
-        private const int maxLength = 140;
+        private const int maxLength = 130;
 
         public void SendError(ScoreInfo invalidScore, UnrecognisedTokenException exception)
         {

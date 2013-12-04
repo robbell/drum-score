@@ -35,7 +35,13 @@ namespace DrumScore
         public void Progress()
         {
             position += progression;
+            EnsureLastEighthIsPopulated();
             offset = 0;
+        }
+
+        private void EnsureLastEighthIsPopulated()
+        {
+            if (!Samples.ContainsKey(position - 1)) Samples.Add(position - 1, new List<Sample>());
         }
     }
 }

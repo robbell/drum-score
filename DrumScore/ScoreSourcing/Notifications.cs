@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using DrumScore.Interpretation;
 using Tweetinvi;
 
@@ -14,13 +15,13 @@ namespace DrumScore.ScoreSourcing
             {
                 var user = new TokenUser(TokenSingleton.Token);
 
-                var tweet = string.Format("@{0} Unrecognised token: \"{1}\".",
+                var tweet = string.Format("@{0} Unrecognised token: \"{1}\". Language spec: http://t.co/mESKiN9qSS",
                                           invalidScore.Username,
                                           exception.Message);
 
-                user.SendTweet(tweet.Length > maxLength ? tweet.Substring(0, maxLength) : tweet);
+                user.PublishTweet(tweet.Length > maxLength ? tweet.Substring(0, maxLength) : tweet);
             }
-            catch (WebException)
+            catch (Exception)
             {
                 // ToDo: implement UI notifications
             }

@@ -38,17 +38,21 @@
     <Reference Include="Bespoke.Common.Osc">
       <HintPath>..\packages\Bespoke-OSC-Library.1.0.0\lib\Bespoke.Common.Osc.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.Prism">
-      <HintPath>..\packages\TweetinviAPI.0.8.1.0\lib\Microsoft.Practices.Prism.dll</HintPath>
+    <Reference Include="Microsoft.Practices.Prism, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\TweetinviAPI.0.8.3.21\lib\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
-    <Reference Include="oAuthConnection">
-      <HintPath>..\packages\TweetinviAPI.0.8.1.0\lib\oAuthConnection.dll</HintPath>
+    <Reference Include="oAuthConnection, Version=0.8.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\TweetinviAPI.0.8.3.21\lib\oAuthConnection.dll</HintPath>
     </Reference>
-    <Reference Include="SearchEngine">
-      <HintPath>..\packages\TweetinviAPI.0.8.1.0\lib\SearchEngine.dll</HintPath>
+    <Reference Include="SearchEngine, Version=0.8.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\TweetinviAPI.0.8.3.21\lib\SearchEngine.dll</HintPath>
     </Reference>
-    <Reference Include="Streaminvi">
-      <HintPath>..\packages\TweetinviAPI.0.8.1.0\lib\Streaminvi.dll</HintPath>
+    <Reference Include="Streaminvi, Version=0.8.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\TweetinviAPI.0.8.3.21\lib\Streaminvi.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -58,17 +62,24 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="TweetinCore">
-      <HintPath>..\packages\TweetinviAPI.0.8.1.0\lib\TweetinCore.dll</HintPath>
+    <Reference Include="Tools">
+      <HintPath>..\packages\TweetinviAPI.0.8.3.21\lib\Tools.dll</HintPath>
     </Reference>
-    <Reference Include="Tweetinvi">
-      <HintPath>..\packages\TweetinviAPI.0.8.1.0\lib\Tweetinvi.dll</HintPath>
+    <Reference Include="TweetinCore, Version=0.8.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\TweetinviAPI.0.8.3.21\lib\TweetinCore.dll</HintPath>
     </Reference>
-    <Reference Include="TwitterToken">
-      <HintPath>..\packages\TweetinviAPI.0.8.1.0\lib\TwitterToken.dll</HintPath>
+    <Reference Include="Tweetinvi, Version=0.8.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\TweetinviAPI.0.8.3.21\lib\Tweetinvi.dll</HintPath>
     </Reference>
-    <Reference Include="UILibrary">
-      <HintPath>..\packages\TweetinviAPI.0.8.1.0\lib\UILibrary.dll</HintPath>
+    <Reference Include="TwitterToken, Version=0.8.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\TweetinviAPI.0.8.3.21\lib\TwitterToken.dll</HintPath>
+    </Reference>
+    <Reference Include="UILibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\TweetinviAPI.0.8.3.21\lib\UILibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -76,7 +87,6 @@
     <Compile Include="Interpretation\Expressions\IExpression.cs" />
     <Compile Include="Interpretation\Expressions\OffsetSampleExpression.cs" />
     <Compile Include="OscOutput.cs" />
-    <Compile Include="PlaybackQueue.cs" />
     <Compile Include="ScoreSourcing\INotifications.cs" />
     <Compile Include="Interpretation\Interpreter.cs" />
     <Compile Include="IPlaybackOutput.cs" />

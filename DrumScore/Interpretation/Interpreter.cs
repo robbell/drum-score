@@ -16,19 +16,12 @@ namespace DrumScore.Interpretation
             var score = new Score();
             var tokens = tokeniser.ReadTokens(textScore);
 
-            AddEmptyFirstBeat(score);
-
             foreach (var token in tokens)
             {
                 token.Interpret(score);
             }
 
             return score;
-        }
-
-        private void AddEmptyFirstBeat(IScore score)
-        {
-            new SkipBeatExpression().Interpret(score);
         }
     }
 }

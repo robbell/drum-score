@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DrumScore
@@ -19,6 +20,8 @@ namespace DrumScore
         public void AddSample(Sample sample)
         {
             var offsetPosition = position + offset;
+
+            if (offsetPosition < 0) offsetPosition = 0;
 
             if (!Samples.ContainsKey(offsetPosition)) Samples.Add(offsetPosition, new List<Sample>());
 

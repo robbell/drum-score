@@ -96,5 +96,17 @@ namespace DrumScore.Tests
             Assert.That(score.Samples[expectedNextPosition].Contains(expectedSample));
             Assert.That(score.Samples[expectedLastPosition].Contains(expectedSample));
         }
+
+        [Test]
+        public void EarlyOffsetBeatAtStartOfScoreIsAtPositionZero()
+        {
+            var expected = new Sample("1");
+            var score = new Score();
+
+            score.SetPosition(-1);
+            score.AddSample(expected);
+
+            Assert.That(score.Samples[0], Contains.Item(expected));
+        }
     }
 }

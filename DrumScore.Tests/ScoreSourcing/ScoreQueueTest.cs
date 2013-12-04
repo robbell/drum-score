@@ -26,21 +26,19 @@ namespace DrumScore.Tests.ScoreSourcing
         [Test]
         public void UpdateAddsNewScoresToQueue()
         {
-            feed.Setup(s => s.GetLatest()).Returns(new[] { new ScoreInfo { Id = 123 }, new ScoreInfo { Id = 234 } });
-
-            queue.Update();
+            queue.ScoreReceived(new ScoreInfo { Id = 123 });
+            queue.ScoreReceived(new ScoreInfo { Id = 234 });
 
             Assert.That(queue.Tweets.Count, Is.EqualTo(2));
         }
 
-        [Test]
+        [Test, Ignore("No longer relevant as scores are pushed on publish from Twitter")]
         public void DuplicateScoresAreNotAddedToQueue()
         {
             var duplicateItem = new ScoreInfo { Id = 123 };
-            feed.Setup(s => s.GetLatest()).Returns(new[] { duplicateItem });
             queue.Tweets.Add(duplicateItem);
 
-            queue.Update();
+            queue.ScoreReceived(duplicateItem);
 
             Assert.That(queue.Tweets.Count(s => s.Id == duplicateItem.Id), Is.EqualTo(1));
         }
@@ -49,12 +47,11 @@ namespace DrumScore.Tests.ScoreSourcing
         public void SubmitterIsNotifiedOfInvalidScore()
         {
             var invalidScore = new ScoreInfo { Id = 123, TextScore = "BadScore", Username = "MrMan" };
-            feed.Setup(s => s.GetLatest()).Returns(new[] { invalidScore });
 
             var expectedException = new UnrecognisedTokenException("Invalid Token");
             interpreter.Setup(i => i.Interpret(invalidScore.TextScore)).Throws(expectedException);
 
-            queue.Update();
+            queue.ScoreReceived(invalidScore);
 
             notifications.Verify(n => n.SendError(invalidScore, expectedException), Times.Once());
             Assert.That(queue.Tweets, Is.Empty);

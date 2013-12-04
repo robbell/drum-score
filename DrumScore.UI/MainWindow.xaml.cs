@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Configuration;
 using System.Windows;
 using System.Windows.Threading;
@@ -37,31 +36,12 @@ namespace DrumScore.UI
             scoreQueue = new ScoreQueue(new TwitterScoreFeed(), new Interpreter(new Tokeniser()), new Notifications());
             scoreQueue.QueueChanged +=
                 () => Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(BindToView));
+            scoreQueue.StartListening();
 
-            InitialiseListener();
-            UpdateTweetList(null, null);
-
-            var dispatcherTimer = new DispatcherTimer();
-            dispatcherTimer.Tick += (s, e) => UpdateTweetList(null, null);
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 60);
-            dispatcherTimer.Start();
+            InitialiseMessageListener();
         }
 
-        private void UpdateTweetList(object sender, RoutedEventArgs e)
-        {
-            UpdateButton.Content = "Updating...";
-            UpdateButton.IsEnabled = false;
-            RunInBackground(scoreQueue.Update, UpdateComplete);
-        }
-
-        private void UpdateComplete()
-        {
-            BindToView();
-            UpdateButton.Content = "Update";
-            UpdateButton.IsEnabled = true;
-        }
-
-        private void InitialiseListener()
+        private void InitialiseMessageListener()
         {
             new ControlMessages(scoreQueue,
                                 new Playback(
@@ -103,14 +83,6 @@ namespace DrumScore.UI
             moveAction(itemToMove as ScoreInfo);
             BindToView();
             PlaylistView.SelectedItem = itemToMove;
-        }
-
-        private void RunInBackground(Action work, Action onComplete)
-        {
-            var worker = new BackgroundWorker();
-            worker.DoWork += (s, a) => work();
-            worker.RunWorkerCompleted += (s, a) => onComplete();
-            worker.RunWorkerAsync();
         }
 
         private void BindToView()

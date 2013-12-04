@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-
-namespace DrumScore.ScoreSourcing
+﻿namespace DrumScore.ScoreSourcing
 {
     public interface IScoreFeed
     {
-        IList<ScoreInfo> GetLatest();
+        event TweetReceived Received;
+        void StartListening();
     }
 }

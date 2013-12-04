@@ -19,41 +19,34 @@
 
         <Label Content="Tweets" />
 
-        <DockPanel LastChildFill="True"
-                   Grid.Row="1">
-            <Button DockPanel.Dock="Bottom"
-                    Height="Auto"
-                    Content="Update Now"
-                    Click="UpdateTweetList"
-                    Name="UpdateButton" />
-            <ListView Name="TweetListView"
-                      HorizontalContentAlignment="Stretch"
-                      ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding TextScore}"
-                                       Grid.ColumnSpan="2"
-                                       TextTrimming="CharacterEllipsis" />
-                            <TextBlock Text="{Binding Username}"
-                                       Grid.Row="1" />
-                            <TextBlock Text="{Binding DateTime}"
-                                       Grid.Row="1"
-                                       Grid.Column="1"
-                                       TextAlignment="Right" />
-                        </Grid>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </DockPanel>
+        <ListView Name="TweetListView"
+                  Grid.Row="1"
+                  HorizontalContentAlignment="Stretch"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding TextScore}"
+                                   Grid.ColumnSpan="2"
+                                   TextTrimming="CharacterEllipsis" />
+                        <TextBlock Text="{Binding Username}"
+                                   Grid.Row="1" />
+                        <TextBlock Text="{Binding DateTime}"
+                                   Grid.Row="1"
+                                   Grid.Column="1"
+                                   TextAlignment="Right" />
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
 
         <Button Grid.Column="1"
                 Grid.Row="1"

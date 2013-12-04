@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using DrumScore.Interpretation;
 
@@ -10,7 +9,6 @@ namespace DrumScore.ScoreSourcing
         private readonly IScoreFeed feed;
         private readonly Interpreter interpreter;
         private readonly INotifications notifications;
-        private readonly List<ScoreInfo> playHistory = new List<ScoreInfo>();
 
         public IList<ScoreInfo> Tweets { get; private set; }
         public IList<ScoreInfo> Playlist { get; private set; }
@@ -23,33 +21,26 @@ namespace DrumScore.ScoreSourcing
             this.notifications = notifications;
             Tweets = new List<ScoreInfo>();
             Playlist = new List<ScoreInfo>();
+            feed.Received += ScoreReceived;
         }
 
-        public void Update()
+        public void StartListening()
         {
-            var latest = feed.GetLatest();
+            feed.StartListening();
+        }
 
-            foreach (var scoreInfo in latest.Where(NotPlayedPreviously()))
+        public void ScoreReceived(ScoreInfo scoreInfo)
+        {
+            try
             {
-                try
-                {
-                    scoreInfo.Score = interpreter.Interpret(scoreInfo.TextScore);
-                    Tweets.Add(scoreInfo);
-                }
-                catch (UnrecognisedTokenException exception)
-                {
-                    notifications.SendError(scoreInfo, exception);
-                }
+                scoreInfo.Score = interpreter.Interpret(scoreInfo.TextScore);
+                Tweets.Add(scoreInfo);
+                OnQueueChanged();
             }
-        }
-
-        private Func<ScoreInfo, bool> NotPlayedPreviously()
-        {
-            return
-                item =>
-                Tweets.All(s => s.Id != item.Id)
-                && Playlist.All(s => s.Id != item.Id)
-                && playHistory.All(s => s.Id != item.Id);
+            catch (UnrecognisedTokenException exception)
+            {
+                notifications.SendError(scoreInfo, exception);
+            }
         }
 
         public void MoveToPlaylist(ScoreInfo scoreToMove)
@@ -89,7 +80,6 @@ namespace DrumScore.ScoreSourcing
             if (nextScore == null) return null;
 
             Playlist.Remove(nextScore);
-            playHistory.Add(nextScore);
             OnQueueChanged();
 
             return nextScore;

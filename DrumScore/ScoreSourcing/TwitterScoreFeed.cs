@@ -1,15 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System.ComponentModel;
 using System.Configuration;
-using System.Net;
 using System.Text.RegularExpressions;
+using Streaminvi;
+using TweetinCore.Events;
+using TweetinCore.Interfaces;
 using Tweetinvi;
 using TwitterToken;
-using System.Linq;
 
 namespace DrumScore.ScoreSourcing
 {
     public class TwitterScoreFeed : IScoreFeed
     {
+        public event TweetReceived Received;
         private readonly Token token;
 
         public TwitterScoreFeed()
@@ -22,24 +24,37 @@ namespace DrumScore.ScoreSourcing
             TokenSingleton.Token = token;
         }
 
-        public IList<ScoreInfo> GetLatest()
+        public void StartListening()
         {
-            try
-            {
-                var user = new TokenUser(token);
+            var worker = new BackgroundWorker();
 
-                return user.GetLatestMentionsTimeline().Select(m => new ScoreInfo
+            worker.DoWork += (s, e) =>
                 {
-                    Id = m.Id,
-                    TextScore = DecodeBackslashes(StripMentions(m.Text)),
-                    Username = m.Creator.ScreenName,
-                    DateTime = m.CreatedAt,
-                }).ToList();
-            }
-            catch (WebException exception) // ToDo: Notifications for rate limiting
-            {
-                return Enumerable.Empty<ScoreInfo>().ToList();
-            }
+                    var stream = new UserStream(token);
+                    stream.TweetCreatedByAnyoneButMe += (a, b) => worker.ReportProgress(0, b);
+                    stream.StartStream();
+                };
+
+            worker.WorkerReportsProgress = true;
+            worker.ProgressChanged += (s, e) => TweetReceived((GenericEventArgs<ITweet>)e.UserState);
+            worker.RunWorkerAsync();
+        }
+
+        private void TweetReceived(GenericEventArgs<ITweet> tweetEvent)
+        {
+            if (!tweetEvent.Value.Text.Contains(ConfigurationManager.AppSettings["AccountName"])) return;
+
+            var tweet = tweetEvent.Value;
+
+            var scoreInfo = new ScoreInfo
+                {
+                    Id = tweet.Id,
+                    TextScore = StripMentions(tweet.Text),
+                    Username = tweet.Creator.ScreenName,
+                    DateTime = tweet.CreatedAt,
+                };
+
+            if (Received != null) Received(scoreInfo);
         }
 
         private string StripMentions(string tweet) // ToDo: this should be unit tested
@@ -52,4 +67,6 @@ namespace DrumScore.ScoreSourcing
             return tweet.Replace(@"\\", @"\");
         }
     }
+
+    public delegate void TweetReceived(ScoreInfo scoreInfo);
 }

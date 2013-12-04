@@ -77,8 +77,8 @@ namespace DrumScore.Tests
 
         [TestCase(3, 16, 24)]
         [TestCase(6, 16, 24)]
-        [TestCase(-2, 8, 16)]
-        [TestCase(-3, 8, 16)]
+        [TestCase(-2, 8, 24)]
+        [TestCase(-3, 8, 24)]
         public void ProgressAfterSetPositionMovesToNextBeat(int adjustment, int expectedNextPosition, int expectedLastPosition)
         {
             var dummySample = new Sample("=");

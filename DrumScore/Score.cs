@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace DrumScore
@@ -35,14 +34,8 @@ namespace DrumScore
 
         public void Progress()
         {
-            if (offset >= 0) ProgressToNextBeat();
-
-            offset = 0;
-        }
-
-        private void ProgressToNextBeat()
-        {
             position += progression;
+            offset = 0;
         }
     }
 }

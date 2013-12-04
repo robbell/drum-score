@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using DrumScore.Interpretation;
+﻿using DrumScore.Interpretation;
 using DrumScore.ScoreSourcing;
 using Moq;
 using NUnit.Framework;

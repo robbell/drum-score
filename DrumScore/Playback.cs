@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 
@@ -12,6 +10,7 @@ namespace DrumScore
         public virtual event PlaybackComplete Complete;
         private readonly IPlaybackOutput output;
         private int millisecondsBetweenFrames;
+        private volatile bool shouldLoop;
 
         public bool IsPlaying { get; private set; }
 
@@ -25,11 +24,17 @@ namespace DrumScore
             SetTimeBetweenFrames(tempo);
 
             IsPlaying = true;
+            shouldLoop = false;
 
             var worker = new BackgroundWorker();
             worker.DoWork += (s, e) => BeginPlay(info);
             worker.RunWorkerCompleted += (s, e) => OnComplete();
             worker.RunWorkerAsync();
+        }
+
+        public void ToggleLooping()
+        {
+            shouldLoop = !shouldLoop;
         }
 
         private void SetTimeBetweenFrames(int tempo)
@@ -46,7 +51,10 @@ namespace DrumScore
 
             output.PlayScoreStart(info.Username);
 
-            PlayScore(info.Score, stopwatch);
+            do
+            {
+                PlayScore(info.Score, stopwatch);
+            } while (shouldLoop);
 
             output.PlayScoreEnd();
         }

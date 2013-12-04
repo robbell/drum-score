@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Configuration;
 using System.Net;
-using System.Net.Mime;
 using Bespoke.Common.Osc;
 using DrumScore.ScoreSourcing;
 using System.Linq;
@@ -29,17 +28,21 @@ namespace DrumScore
             server.Start();
         }
 
-        private void MessageReceived(object sender, OscMessageReceivedEventArgs e)
+        private void MessageReceived(object sender, OscMessageReceivedEventArgs e) // ToDo: This could really do with some unit tests
         {
             var channelName = e.Message.Data.First().ToString();
-
             var channel = GetPlaybackChannel(channelName);
+            var isLoopMessage = e.Message.Data.Last().ToString().ToUpper() == "LOOP";
 
-            if (channel.IsPlaying) return;
-
-            var score = scoreQueue.GetNextScoreToPlay();
-
-            if (score != null) channel.Play(score, Convert.ToInt32(e.Message.Data.Last()));
+            if (isLoopMessage)
+            {
+                if (channel.IsPlaying) channel.ToggleLooping();
+            }
+            else
+            {
+                var score = scoreQueue.GetNextScoreToPlay();
+                if (score != null) channel.Play(score, Convert.ToInt32(e.Message.Data.Last()));
+            }
         }
 
         private Playback GetPlaybackChannel(string channelName)

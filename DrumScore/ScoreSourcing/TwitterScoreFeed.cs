@@ -61,11 +61,6 @@ namespace DrumScore.ScoreSourcing
         {
             return Regex.Replace(tweet, @"@([A-Za-z0-9_]+\w)", string.Empty);
         }
-
-        private string DecodeBackslashes(string tweet) // ToDo: this should be unit tested
-        {
-            return tweet.Replace(@"\\", @"\");
-        }
     }
 
     public delegate void TweetReceived(ScoreInfo scoreInfo);

@@ -1,4 +1,4 @@
-#Tweeting Machines
+# Tweeting Machines
 
 *Tweeting Machines* is an interactive, robotic rhythm generator.
 
@@ -14,11 +14,11 @@ Its operating modes allow for:
 - Duet for Tweets
 - Trio for Tweets and Markov Chain
 
-##Language specification
+## Language specification
 
 Details of the score syntax can be found in the [language specification](https://github.com/robbell/drum-score/blob/master/docs/LanguageSpec.md).
 
-##Events
+## Events
 
 ![Machine](https://github.com/robbell/drum-score/raw/master/docs/machine.jpg)
 
